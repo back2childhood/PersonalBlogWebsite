@@ -39,3 +39,7 @@ The entire project is containerized using **Docker** and deployed on **AWS**, ma
 ```sh
 git clone https://github.com/your-username/PersonalBlogWebsite.git
 cd PersonalBlogWebsite
+
+
+## TODO
+1. rebuild the frontend code
