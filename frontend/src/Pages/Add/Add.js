@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../apis/axiosConfig';
 import { AddWrapper, Button, Input, Introput, Title } from './Style';
 
 const Add = () => {

@@ -34,3 +34,6 @@ build/
 
 ### ENV FILE ###
 .env
+
+### MAC
+.DS_Store

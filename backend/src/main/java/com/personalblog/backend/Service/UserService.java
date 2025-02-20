@@ -60,11 +60,13 @@ public class UserService {
         // verify the account
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
+//            System.out.println("this account don't exist");
             map.put("usernameMsg", "this account don't exist");
             return map;
         }else{
             // verify the password
             if (!user.map(User::getPassword).filter(password::equals).isPresent()) {
+//                System.out.println(password + " " + user.map(User::getPassword));
                 map.put("passwordMsg", "wrong password");
                 return map;
             }

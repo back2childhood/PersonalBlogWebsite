@@ -44,11 +44,13 @@ public class LoginController {
 
         if (map.containsKey("ticket")) {
             // 登录成功
-            String json = "{\"message\": \"登录成功\"}";
+            String json = "{\"token\": \"登录成功\"}";
+//            System.out.println(json);
             return ResponseEntity.ok(json);
         } else {
             // 登录失败
-            String json = "{\"message\": \"登录失败\"}";
+            String json = "{\"token\": \"登录失败\"}";
+//            System.out.println(json);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
         }
     }

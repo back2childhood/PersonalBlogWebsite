@@ -1,6 +1,6 @@
 import React from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { HeaderWrapper, Nav, NavItem, NavSearch, Addition, Button, SearchWarpper, Logo } from './style'
+import { HeaderWrapper, Nav, NavItem, NavSearch, Addition, Button, SearchWarpper } from './style'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
