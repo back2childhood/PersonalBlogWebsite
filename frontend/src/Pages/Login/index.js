@@ -1,47 +1,50 @@
 import "@ant-design/v5-patch-for-react-19"
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, message } from "antd";
 import logo from '../../assets/logo.png';
 import { useDispatch } from "react-redux";
 import { fetchLogin } from "@/store/modules/user";
 
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    // const [username, setUsername] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [error, setError] = useState(null);
+    // const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setError(null);
 
-        try {
-            const response = await fetch("http://localhost:8080/login", {  // Ensure correct API endpoint
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
+    //     try {
+    //         const response = await fetch("http://localhost:8080/login", {  // Ensure correct API endpoint
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ username, password })
+    //         });
 
-            console.log(response);
-            const data = await response.data;
-            if (response.status === 401) {
-                setError('Invalid credentials, please try again.');
-                return;
-            }
-            // alert("Login successful!" + response.message);
-            navigate('/experts');
-        } catch (err) {
-            alert("Login failed!" + err.message);
-            // setError(err.message);
-        }
-    };
+    //         console.log(response);
+    //         const data = await response.data;
+    //         if (response.status === 401) {
+    //             setError('Invalid credentials, please try again.');
+    //             return;
+    //         }
+    //         // alert("Login successful!" + response.message);
+    //         navigate('/experts');
+    //     } catch (err) {
+    //         alert("Login failed!" + err.message);
+    //         // setError(err.message);
+    //     }
+    // };
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const onFinish = (values) => {
         console.log(values);
         dispatch(fetchLogin(values));
+        navigate('/');
+        message.success("login successfully");
     }
 
     return (

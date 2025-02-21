@@ -1,4 +1,5 @@
-// package 3 methods of update and remove
+// package 3 methods for saving, getting and deleting token
+// we can use them in other files to operate the token
 
 const TOKENKEY = 'token_key'
 

@@ -1,17 +1,20 @@
 // manage user-related states
 import { createSlice } from "@reduxjs/toolkit";
-import { request } from "@/utils";
+import { getToken, request, setToken as _setToken } from "@/utils";
 
 const userStore = createSlice({
     name: "user",
     // initial state
     initialState: {
-        token: ''
+        // if localstorage haven't saved the token, then initiate it as a null string
+        token: getToken() || ''
     },
     // update data
     reducers: {
         setToken(state, action) {
             state.token = action.payload
+            // save token into localStorage
+            _setToken(action.payload)
         }
     }
 })
