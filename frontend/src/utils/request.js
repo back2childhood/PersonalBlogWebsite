@@ -1,6 +1,6 @@
 // axios
 import axios from 'axios';
-// import { removeToken, getToken } from './token';
+import { removeToken, getToken } from './token';
 // import router from '@/router';
 
 const request = axios.create({
@@ -12,10 +12,12 @@ const request = axios.create({
 // do something before sending the request, like process the parameters
 request.interceptors.request.use(function (config) {
     // Do something before request is sent
-    // const token = getToken()
-    // if (token) {
-    //     config.headers.Authorization = `Bearer ${token}`
-    // }
+    const token = getToken()
+    if (token) {
+        // api : config.headers.Authorization
+        // `Bearer ${token}` : Protocol with the backend
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config;
 }, function (error) {
     // Do something with request error

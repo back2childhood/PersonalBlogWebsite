@@ -15,12 +15,15 @@ const userStore = createSlice({
             state.token = action.payload
             // save token into localStorage
             _setToken(action.payload)
+        },
+        setUserInfo(state, action) {
+            state.UserInfo = action.payload
         }
     }
 })
 
 // Destructure the actionCreater
-const { setToken } = userStore.actions
+const { setToken, setUserInfo } = userStore.actions
 
 // get reducer method
 const userReducer = userStore.reducer
@@ -36,6 +39,15 @@ const fetchLogin = (loginForm) => {
     }
 }
 
-export { setToken, fetchLogin }
+// asynchronous get user info 
+const fetchUserInfo = () => {
+    return async (dispatch) => {
+        // we have set token in request header (in request.js), so the server can tell which user is asking
+        //     const res = await request.get('/user/profile')
+        //     dispatch(setUserInfo(res.data))
+    }
+}
+
+export { setToken, fetchLogin, fetchUserInfo }
 
 export default userReducer
