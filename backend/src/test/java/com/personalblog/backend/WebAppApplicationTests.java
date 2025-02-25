@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static com.personalblog.backend.utils.JWTUtils.createToken;
+import static com.personalblog.backend.utils.JWTUtils.parseToken;
+
 @SpringBootTest
 class WebAppApplicationTests {
 
@@ -30,5 +33,21 @@ class WebAppApplicationTests {
 		}
 		System.out.println(expertRepository.count());
 		System.out.println(userRepository.count());
+	}
+
+	@Test
+	void testJWT(){
+		User user = new User();
+//		user
+		user.setUsername("admin");
+		user.setPassword("123456");
+
+		String token = createToken(user);
+		System.out.println(token);
+
+		User user2 =
+				parseToken(token);
+		System.out.println(user2.getUsername());
+		System.out.println(user2.getPassword());
 	}
 }
