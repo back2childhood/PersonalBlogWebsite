@@ -1,13 +1,16 @@
 package com.personalblog.backend.Controler;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.personalblog.backend.Service.UserService;
 import com.personalblog.backend.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -41,16 +44,11 @@ public class LoginController {
         String password = credentials.get("password");
         System.out.println(username + " " + password);
         Map<String, Object> map = userService.login(username, password);
+        String json = new JSONObject(map).toString();
 
-        if (map.containsKey("ticket")) {
-            // 登录成功
-            String json = "{\"token\": \"登录成功\"}";
-//            System.out.println(json);
+        if (map.containsKey("token")) {
             return ResponseEntity.ok(json);
         } else {
-            // 登录失败
-            String json = "{\"token\": \"登录失败\"}";
-//            System.out.println(json);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
         }
     }
@@ -59,5 +57,27 @@ public class LoginController {
     public String logout(@CookieValue("ticket") String ticket) {
 //        userService.logout(ticket);
         return "redirect:/login";
+    }
+
+    @GetMapping(path = "/profile")
+    public ResponseEntity<?> profile(HttpServletRequest request){
+
+        String token = request.getHeader("Authorization");
+//        assert token != null;
+
+        if(token == null || !token.startsWith("Bearer ")){
+            Map<String, Object> map = new HashMap<>();
+            map.put("failed", "please login first");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JSONObject(map));
+        }
+
+        Map<String, Object> map = userService.getUserInfo(token.substring(7));
+        String json = new JSONObject(map).toString();
+
+        if (map.containsKey("data")) {
+            return ResponseEntity.ok(json);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
+        }
     }
 }

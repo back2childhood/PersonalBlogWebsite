@@ -1,37 +1,61 @@
 package com.personalblog.backend.utils;
 
-import com.personalblog.backend.entity.User;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.MacAlgorithm;
-import org.bson.types.ObjectId;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+@Component
 public class JWTUtils {
 
-    // 根据物理地址哈希得到，服务每次重启都不一样。
-    // 使用生成密钥：使用 HS512 算法生成对称密钥。每次生成的密钥不同，因为是基于系统资源（如物理地址）的哈希值。
-    private static final MacAlgorithm alg = Jwts.SIG.HS512; //or HS384 or HS256
-    private static final SecretKey key = alg.key().build();
+    // the secretKey is different everytime reboot, so i store it in application.properties file and load it when service starts.
+//    private static final MacAlgorithm alg = Jwts.SIG.HS512; //or HS384 or HS256
+//    private static final SecretKey key = alg.key().build();
 
-    public static String createToken(User user) {
+    @Value("${jwt.secret}") // Inject the secret key
+    private String secretKey;  // Non-static variable to receive value
+
+    private static String baseString; // Static variable to be used everywhere
+
+    @PostConstruct // Runs after Spring initializes the bean
+    public void init() {
+        baseString = secretKey; // Assign injected value to static variable
+    }
+
+    public static String createToken(String username) {
+        // use the following code to generate a static secretkey, because the key is different every time the service reboot
+//        // original array
+//        System.out.println(Arrays.toString(key.getEncoded()));
+//        // base64 code after encode
+//        String s = Base64.getEncoder().encodeToString(key.getEncoded());
+//        System.out.println(s);
+//        // decode
+//        byte[] keyBytes = Decoders.BASE64.decode(s); // Decode Base64 secret
+//        SecretKey sk = Keys.hmacShaKeyFor(keyBytes);
+//        System.out.println(Arrays.toString(sk.getEncoded()));
+
+//        System.out.println(baseString);
+        byte[] keyBytes = Decoders.BASE64.decode(baseString);
+        SecretKey sk = Keys.hmacShaKeyFor(keyBytes);
+//         System.out.println(Arrays.toString(sk.getEncoded()));
+
         // custom claim
         Map<String, Object> inputClaims = new HashMap<>();
 
-//        inputClaims.put("id", user.getId());
-        inputClaims.put("username", user.getUsername());
-        inputClaims.put("password", user.getPassword());
+        inputClaims.put("username", username);
 
         // 2 approaches: sign or encrypt
         String token = Jwts.builder()
                 // Specifies the issuer of the token, server can make sure the token is from this server
                 .issuer("auth-server")
                 // specify who the token is meant for.
-                .subject(user.getUsername())
+                .subject("username")
                 .claims(inputClaims)
                 // optional, the audience of the token, server can make sure this token is made for specific client while parsing it.
                 .audience().add("api-client").and()
@@ -44,7 +68,7 @@ public class JWTUtils {
                 // randomly generate an unique identifier
                 .id(UUID.randomUUID().toString())
                 // sign
-                .signWith(key)
+                .signWith(sk)
                 // encrypt
 //                .encryptWith(key, Jwts.ENC.A256CBC_HS512)
 //                generate a token and compact to a string
@@ -52,21 +76,21 @@ public class JWTUtils {
         return token;
     }
 
-    public static User parseToken(String token) {
+    public static Claims parseToken(String token) {
+        byte[] keyBytes = Decoders.BASE64.decode(baseString);
+        SecretKey sk = Keys.hmacShaKeyFor(keyBytes);
+
         // parse
         Claims claims = Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(sk)
                 .build()
                 // if token was made by sign approach
                 .parseSignedClaims(token)
                 // get the contents after decryption
                 .getPayload();
 
-        User user = new User();
-        user.setId(claims.get("id", Integer.class));
-        user.setUsername(claims.get("username", String.class));
-        user.setPassword((String) claims.get("password"));
-
-        return user;
+//        System.out.println(claims.getExpiration().getTime() + " " + System.currentTimeMillis());
+//        String username = claims.get("username", String.class);
+        return claims;
     }
 }

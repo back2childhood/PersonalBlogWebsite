@@ -1,13 +1,12 @@
 package com.personalblog.backend;
 
-import com.personalblog.backend.dao.ExpertRepository;
 import com.personalblog.backend.dao.UserRepository;
 import com.personalblog.backend.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import java.util.Optional;
 
 import static com.personalblog.backend.utils.JWTUtils.createToken;
 import static com.personalblog.backend.utils.JWTUtils.parseToken;
@@ -22,32 +21,22 @@ class WebAppApplicationTests {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private ExpertRepository expertRepository;
-
 	@Test
-	void testMongoDb(){
-		List<User> users = userRepository.findAll();
-		for (User user : users) {
-			System.out.println(user);
+	void testJpaSelect(){
+		Optional<User> user = userRepository.findUserById(123);
+		if(user.isPresent()){
+			System.out.println("success");
+		}else{
+			System.out.println("fail");
 		}
-		System.out.println(expertRepository.count());
-		System.out.println(userRepository.count());
 	}
 
 	@Test
 	void testJWT(){
-		User user = new User();
-//		user
-		user.setUsername("admin");
-		user.setPassword("123456");
 
-		String token = createToken(user);
-		System.out.println(token);
+		String token = createToken("1");
+//		System.out.println(token);
 
-		User user2 =
-				parseToken(token);
-		System.out.println(user2.getUsername());
-		System.out.println(user2.getPassword());
+//		System.out.println(parseToken("eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhdXRoLXNlcnZlciIsInN1YiI6InVzZXJuYW1lIiwidXNlcm5hbWUiOiJ0ZXN0X2FkbWluIiwiYXVkIjpbImFwaS1jbGllbnQiXSwiaWF0IjoxNzQwNTMwMDEyLCJleHAiOjE3NDA3MDI4MTIsImp0aSI6ImU5NjY1NGQ3LWI3MTktNDg0MC04MmIyLTA5YjIyM2UyMTc2NSJ9.gVW7SvCGEBiLCWDDTpNmG-j1-j-jdu1fg3R7xb_mKsgS_0Mm0lEfHopYNRze25LD0EamQtV4cHMnNKWL2WQgfQ"));
 	}
 }

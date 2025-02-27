@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios';
 import { removeToken, getToken } from './token';
-// import router from '@/router';
+import router from '@/router';
 
 const request = axios.create({
     baseURL: 'http://localhost:8080',
@@ -29,14 +29,14 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response;
+    return response.data;
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     if (error.response.status === 401) {
-        // removeToken()
-        // router.navigate('/login')
-        // window.location.reload()
+        removeToken()
+        router.navigate('/login')
+        window.location.reload()
     } else {
         return Promise.reject(error);
     }

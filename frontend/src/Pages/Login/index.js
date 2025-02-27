@@ -7,41 +7,12 @@ import { useDispatch } from "react-redux";
 import { fetchLogin } from "@/store/modules/user";
 
 const Login = () => {
-    // const [username, setUsername] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [error, setError] = useState(null);
-    // const navigate = useNavigate();
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setError(null);
-
-    //     try {
-    //         const response = await fetch("http://localhost:8080/login", {  // Ensure correct API endpoint
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ username, password })
-    //         });
-
-    //         console.log(response);
-    //         const data = await response.data;
-    //         if (response.status === 401) {
-    //             setError('Invalid credentials, please try again.');
-    //             return;
-    //         }
-    //         // alert("Login successful!" + response.message);
-    //         navigate('/experts');
-    //     } catch (err) {
-    //         alert("Login failed!" + err.message);
-    //         // setError(err.message);
-    //     }
-    // };
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const onFinish = (values) => {
-        console.log(values);
+        console.log("values: " + values);
         dispatch(fetchLogin(values));
         navigate('/');
         message.success("login successfully");
@@ -63,7 +34,7 @@ const Login = () => {
                             },
                         ]}
                     >
-                        <Input size="large" placeholder="username" onChange={(e) => setUsername(e)} />
+                        <Input size="large" placeholder="username" />
                     </Form.Item>
                     <Form.Item
                         name="password"

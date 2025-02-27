@@ -9,6 +9,7 @@ import './index.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserInfo } from '@/store/modules/user'
 
 const { Header, Sider } = Layout
 
@@ -32,6 +33,7 @@ const items = [
 
 const MyLayout = () => {
     const navigate = useNavigate()
+
     const onMenuClick = (route) => {
         console.log('click', route)
         const path = route.key
@@ -40,13 +42,13 @@ const MyLayout = () => {
 
     // Get the current route path
     const location = useLocation()
-    console.log(location.pathname)
+    // console.log(location.pathname)
     const selectedkey = location.pathname
 
     // Trigger the user action
     const dispatch = useDispatch()
     useEffect(() => {
-        // dispatch(fetchUserInfo())
+        dispatch(fetchUserInfo())
     }, [dispatch])
 
     // log out and refresh home page
@@ -56,13 +58,15 @@ const MyLayout = () => {
         navigate('/')
     }
 
-    // const username = useSelector(state => state.user.userInfo.username)
+    const username = useSelector(state => state.user.UserInfo.username)
+    // console.log(s.user.UserInfo.username)
+
     return (
         <Layout>
             <Header className="header">
                 <div className="logo" />
                 <div className="user-info">
-                    <span className="user-name">login</span>
+                    <span className="user-name">{username}</span>
                     <span className="user-logout">
                         <Popconfirm title="do you want to log out" okText="log out" cancelText="cancel" onConfirm={onConfirm}>
                             <LogoutOutlined /> log out

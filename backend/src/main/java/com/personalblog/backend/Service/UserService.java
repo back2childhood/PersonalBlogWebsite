@@ -2,17 +2,19 @@ package com.personalblog.backend.Service;
 
 import com.personalblog.backend.dao.UserRepository;
 import com.personalblog.backend.entity.User;
+import com.personalblog.backend.utils.JWTUtils;
 import com.personalblog.backend.utils.WebUtils;
+import io.jsonwebtoken.Claims;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.personalblog.backend.utils.JWTUtils.parseToken;
+
 @Service
 public class UserService {
-
-
 
     @Autowired
     private UserRepository userRepository;
@@ -47,7 +49,7 @@ public class UserService {
         Map<String, Object> map = new HashMap<>();
 
         // handle null value
-        if (StringUtils.isBlank(String.valueOf(username))) {
+        if (StringUtils.isBlank(username)) {
             map.put("usernameMsg", "the account cannot be empty");
             return map;
         }
@@ -58,35 +60,48 @@ public class UserService {
         }
 
         // verify the account
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findUserByUsername(username);
         if (user.isEmpty()) {
 //            System.out.println("this account don't exist");
-            map.put("usernameMsg", "this account don't exist");
+            map.put("failed", "this account don't exist");
             return map;
         }else{
             // verify the password
             if (!user.map(User::getPassword).filter(password::equals).isPresent()) {
 //                System.out.println(password + " " + user.map(User::getPassword));
-                map.put("passwordMsg", "wrong password");
+                map.put("failed", "wrong password");
                 return map;
             }
         }
+        String token = JWTUtils.createToken(username);
+        map.put("token", token);
         map.put("ticket", "success");
         return map;
     }
 
-//    /**
-//     * don't need return a value, it will success if there is no error
-//     *
-//     * @param ticket
-//     */
-//    public void logout(String ticket) {
-//        loginTicketMapper.updateStatus(ticket, 1);
-//    }
-//
-//    public LoginTicket findLoginTicket(String ticket) {
-//        return loginTicketMapper.selectByTicket(ticket);
-//    }
+    public Map<String, Object> getUserInfo(String token) {
+        Claims claims = parseToken(token);
+        Map<String, Object> map = new HashMap<>();
+
+        // token expired
+        if(claims.getExpiration().getTime() < System.currentTimeMillis()){
+            map.put("failed", "login expired");
+        }
+
+        String username = claims.get("username", String.class);
+        Optional<User> user = userRepository.findUserByUsername(username);
+        if (user.isEmpty()) {
+            map.put("usernameMsg", "fake token");
+            return map;
+        }
+
+        Map<String, String> data = new HashMap<>();
+        data.put("username", username);
+//        data.put("id", u.getId());
+
+        map.put("data", data);
+        return map;
+    }
 
     public Map<String, Object> updatePassword(User user, String oldPassword, String newPassword, String confirmPassword) {
         Map<String, Object> map = new HashMap<>();
