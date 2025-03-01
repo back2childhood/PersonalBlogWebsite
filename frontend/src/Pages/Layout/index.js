@@ -9,7 +9,7 @@ import './index.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserInfo } from '@/store/modules/user'
+import { fetchUserInfo, clearUserInfo } from '@/store/modules/user'
 
 const { Header, Sider } = Layout
 
@@ -54,8 +54,8 @@ const MyLayout = () => {
     // log out and refresh home page
     const onConfirm = () => {
         console.log('log out')
-        // dispatch(clearUserInfo())
-        navigate('/')
+        dispatch(clearUserInfo())
+        // navigate('/')
     }
 
     const username = useSelector(state => state.user.UserInfo.username)

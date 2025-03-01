@@ -80,26 +80,21 @@ public class UserService {
     }
 
     public Map<String, Object> getUserInfo(String token) {
-        Claims claims = parseToken(token);
         Map<String, Object> map = new HashMap<>();
 
-        // token expired
-        if(claims.getExpiration().getTime() < System.currentTimeMillis()){
-            map.put("failed", "login expired");
-        }
-
-        String username = claims.get("username", String.class);
+        String username = JWTUtils.getUsername(token);
+        if(username == null) map.put("failed", "invalid token");
         Optional<User> user = userRepository.findUserByUsername(username);
         if (user.isEmpty()) {
             map.put("usernameMsg", "fake token");
             return map;
         }
+//
+//        Map<String, String> data = new HashMap<>();
+//        data.put("username", map);
+////        data.put("id", u.getId());
 
-        Map<String, String> data = new HashMap<>();
-        data.put("username", username);
-//        data.put("id", u.getId());
-
-        map.put("data", data);
+        map.put("data", user);
         return map;
     }
 

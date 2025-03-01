@@ -60,16 +60,15 @@ public class LoginController {
     }
 
     @GetMapping(path = "/profile")
-    public ResponseEntity<?> profile(HttpServletRequest request){
+    public ResponseEntity<?> profile(@RequestHeader("Authorization") String token){
 
-        String token = request.getHeader("Authorization");
 //        assert token != null;
-
-        if(token == null || !token.startsWith("Bearer ")){
-            Map<String, Object> map = new HashMap<>();
-            map.put("failed", "please login first");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JSONObject(map));
-        }
+//
+//        if(token == null || !token.startsWith("Bearer ")){
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("failed", "please login first");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JSONObject(map));
+//        }
 
         Map<String, Object> map = userService.getUserInfo(token.substring(7));
         String json = new JSONObject(map).toString();

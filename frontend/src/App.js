@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Search from './pages/Search/Search';
 import Header from './common/Header';
 import Home from './pages/Home';
-import Add from './pages/Add';
+import Add from './pages/Publish';
 import Detail from './pages/Detail';
 
 const App = () => {

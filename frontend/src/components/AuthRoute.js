@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom";
 // if he didn't login yet, then jump to the login page
 export function AuthRoute({ children }) {
     const token = getToken()
-    console.log(token)
+    // console.log("authrouth: " + token)
     if (token) {
         return <>{children}</>
     } else {

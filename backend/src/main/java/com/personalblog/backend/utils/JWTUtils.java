@@ -1,11 +1,14 @@
 package com.personalblog.backend.utils;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -92,5 +95,19 @@ public class JWTUtils {
 //        System.out.println(claims.getExpiration().getTime() + " " + System.currentTimeMillis());
 //        String username = claims.get("username", String.class);
         return claims;
+    }
+
+    public static String getUsername(String token) {
+        if(token == null || !token.startsWith("Bearer ")){
+            Map<String, Object> map = new HashMap<>();
+            map.put("failed", "please login first");
+            return null;
+        }
+        Claims claims = parseToken(token);
+        // token expired
+        if(claims.getExpiration().getTime() < System.currentTimeMillis()){
+            return null;
+        }
+        return claims.get("username", String.class);
     }
 }
