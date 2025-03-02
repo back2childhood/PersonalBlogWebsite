@@ -19,7 +19,7 @@ The backend is developed using **Java Spring**.
 ### Key Technologies:
 
 - **Spring Boot** for backend services
-- **MongoDB** for data storage
+- **MySQL** for data storage
 - **Kafka** for event-driven notifications
 - **Elasticsearch** for optimized search functionality
 
@@ -33,7 +33,7 @@ The entire project is containerized using **Docker** and deployed on **AWS**, ma
 
 - **Node.js** and **React** (for frontend)
 - **Java** and **Spring Boot** (for backend)
-- **MongoDB**, **Kafka**, and **Elasticsearch** installed/configured
+- **MySQL**, **Kafka**, and **Elasticsearch** installed/configured
 
 ### Running Locally
 
