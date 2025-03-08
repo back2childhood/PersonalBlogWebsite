@@ -13,8 +13,16 @@ export function getChannelAPI() {
 // submit an article
 export function createArticleAPI(data) {
     return request({
-        url: '/mp/articles?draft=false',
+        url: '/articles?draft=false',
         method: 'POST',
         data
+    })
+}
+
+export function getArticleListAPI(params) {
+    return request({
+        url: '/articles',
+        method: 'GET',
+        params
     })
 }

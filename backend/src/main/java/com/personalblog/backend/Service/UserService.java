@@ -89,10 +89,6 @@ public class UserService {
             map.put("usernameMsg", "fake token");
             return map;
         }
-//
-//        Map<String, String> data = new HashMap<>();
-//        data.put("username", map);
-////        data.put("id", u.getId());
 
         map.put("data", user);
         return map;

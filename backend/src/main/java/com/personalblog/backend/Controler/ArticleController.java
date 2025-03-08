@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/api/"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
+@CrossOrigin(origins = {"http://localhost:3000/"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
 public class ArticleController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class ArticleController {
         }
     }
 
-    @PostMapping(path = "/mp/article")
+    @PostMapping(path = "/article")
     public ResponseEntity<?> createArticle(@RequestBody Map<String, String> credentials,
                                            @RequestHeader("Authorization") String token) {
         String title = credentials.get("title");
@@ -51,4 +51,9 @@ public class ArticleController {
         String json = new JSONObject(map).toString();
         return ResponseEntity.ok(json);
     }
+
+//    @GetMapping(path = "/articles")
+//    public ResponseEntity<?> getAllArticles() {
+//
+//    }
 }

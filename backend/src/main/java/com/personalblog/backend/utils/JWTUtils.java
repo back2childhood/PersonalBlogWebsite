@@ -103,7 +103,7 @@ public class JWTUtils {
             map.put("failed", "please login first");
             return null;
         }
-        Claims claims = parseToken(token);
+        Claims claims = parseToken(token.substring(7));
         // token expired
         if(claims.getExpiration().getTime() < System.currentTimeMillis()){
             return null;

@@ -4,7 +4,7 @@ import { removeToken, getToken } from './token';
 import router from '@/router';
 
 const request = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'http://localhost:8080',
     headers: { "ngrok-skip-browser-warning": "true" }
 });
 

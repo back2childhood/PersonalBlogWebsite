@@ -11,7 +11,7 @@ import Profile from '@/pages/Profile'
 // use lazy function to import the module
 const Home = lazy(() => import('@/pages/Home'))
 const Publish = lazy(() => import('@/pages/Publish'))
-const Detail = lazy(() => import('@/pages/Detail'))
+const Article = lazy(() => import('@/pages/Article'))
 
 const router = createBrowserRouter([
     {
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
                 element: <AuthRoute><Publish /></AuthRoute>
             },
             {
-                path: 'detail/:id',
-                element: <Detail />
+                path: 'article',
+                element: <Article />
             }
         ]
     },

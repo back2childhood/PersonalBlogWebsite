@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000/api"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
 public class UserController {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -58,20 +58,15 @@ public class UserController {
     }
 
     @GetMapping(path = "/profile")
-    public ResponseEntity<?> profile(@RequestHeader("Authorization") String token){
+    public ResponseEntity<?> profile(@RequestHeader(value = "Authorization", required = false) String token){
 
-//        assert token != null;
-//
-//        if(token == null || !token.startsWith("Bearer ")){
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("failed", "please login first");
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JSONObject(map));
-//        }
+//        System.out.println("token : " + token);
 
-        Map<String, Object> map = userService.getUserInfo(token.substring(7));
+        Map<String, Object> map = userService.getUserInfo(token);
         String json = new JSONObject(map).toString();
 
         if (map.containsKey("data")) {
+            System.out.println(json);
             return ResponseEntity.ok(json);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);

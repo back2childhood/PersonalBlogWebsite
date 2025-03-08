@@ -12,7 +12,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const onFinish = (values) => {
-        console.log("values: " + values);
+        console.log(values);
         dispatch(fetchLogin(values));
         navigate('/');
         message.success("login successfully");
