@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -71,5 +72,13 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
         }
+    }
+
+    @GetMapping(path = "/test")
+    public ResponseEntity<?> test(@RequestHeader(value = "Authorization", required = false) String token){
+        Map<String, String> map = new HashMap<>();
+        map.put("test", "test");
+        String json = new JSONObject(map).toString();
+        return ResponseEntity.ok(json);
     }
 }

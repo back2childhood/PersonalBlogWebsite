@@ -1,6 +1,7 @@
 package com.personalblog.backend.utils;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.personalblog.backend.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -31,7 +32,9 @@ public class JWTUtils {
         baseString = secretKey; // Assign injected value to static variable
     }
 
-    public static String createToken(String username) {
+    public static String createToken(User user) {
+        if (user == null) {return null;}
+
         // use the following code to generate a static secretkey, because the key is different every time the service reboot
 //        // original array
 //        System.out.println(Arrays.toString(key.getEncoded()));
@@ -51,14 +54,15 @@ public class JWTUtils {
         // custom claim
         Map<String, Object> inputClaims = new HashMap<>();
 
-        inputClaims.put("username", username);
+        inputClaims.put("username", user.getUsername());
+        inputClaims.put("id", user.getId());
 
         // 2 approaches: sign or encrypt
         String token = Jwts.builder()
                 // Specifies the issuer of the token, server can make sure the token is from this server
                 .issuer("auth-server")
                 // specify who the token is meant for.
-                .subject("username")
+                .subject("user")
                 .claims(inputClaims)
                 // optional, the audience of the token, server can make sure this token is made for specific client while parsing it.
                 .audience().add("api-client").and()
@@ -97,17 +101,18 @@ public class JWTUtils {
         return claims;
     }
 
-    public static String getUsername(String token) {
+    public static User getUserFromToken(String token) {
+
+        System.out.println(token);
         if(token == null || !token.startsWith("Bearer ")){
             Map<String, Object> map = new HashMap<>();
             map.put("failed", "please login first");
             return null;
         }
         Claims claims = parseToken(token.substring(7));
-        // token expired
-        if(claims.getExpiration().getTime() < System.currentTimeMillis()){
-            return null;
-        }
-        return claims.get("username", String.class);
+        User user = new User();
+        user.setUsername(claims.get("username", String.class));
+        user.setId(claims.get("id", Integer.class));
+        return user;
     }
 }

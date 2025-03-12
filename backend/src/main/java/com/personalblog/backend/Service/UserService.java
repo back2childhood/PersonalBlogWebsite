@@ -67,13 +67,13 @@ public class UserService {
             return map;
         }else{
             // verify the password
-            if (!user.map(User::getPassword).filter(password::equals).isPresent()) {
+            if (user.map(User::getPassword).filter(password::equals).isEmpty()) {
 //                System.out.println(password + " " + user.map(User::getPassword));
                 map.put("failed", "wrong password");
                 return map;
             }
         }
-        String token = JWTUtils.createToken(username);
+        String token = JWTUtils.createToken(user.orElse(null));
         map.put("token", token);
         map.put("ticket", "success");
         return map;
@@ -82,14 +82,16 @@ public class UserService {
     public Map<String, Object> getUserInfo(String token) {
         Map<String, Object> map = new HashMap<>();
 
-        String username = JWTUtils.getUsername(token);
-        if(username == null) map.put("failed", "invalid token");
-        Optional<User> user = userRepository.findUserByUsername(username);
-        if (user.isEmpty()) {
-            map.put("usernameMsg", "fake token");
+        User user = JWTUtils.getUserFromToken(token);
+        if(user == null){
+            map.put("failed", "invalid token");
             return map;
         }
-
+//        Optional<User> user = userRepository.findUserByUsername(username);
+//        else{
+//            map.put("usernameMsg", "fake token");
+//            return map;
+//        }
         map.put("data", user);
         return map;
     }

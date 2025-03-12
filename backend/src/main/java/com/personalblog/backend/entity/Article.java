@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.Instant;
 
@@ -44,8 +45,8 @@ public class Article {
     @Column(name = "comment_count")
     private Integer commentCount;
 
-    @Column(name = "score")
-    private Double score;
+    @Column(name = "channel")
+    private Integer channel;
 
     public Integer getId() {
         return id;
@@ -79,8 +80,8 @@ public class Article {
         return commentCount;
     }
 
-    public Double getScore() {
-        return score;
+    public Integer getChannel() {
+        return channel;
     }
 
     public void setId(Integer id) {
@@ -115,7 +116,7 @@ public class Article {
         this.commentCount = commentCount;
     }
 
-    public void setScore(Double score) {
-        this.score = score;
+    public void setChannel(Integer channel) {
+        this.channel = channel;
     }
 }

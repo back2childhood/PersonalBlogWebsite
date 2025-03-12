@@ -38,7 +38,7 @@ class WebAppApplicationTests {
 
 	@Test
 	void testJWT(){
-		String token = createToken("1");
+//		String token = createToken("1");
 	}
 
 	@Test

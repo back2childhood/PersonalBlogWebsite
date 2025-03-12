@@ -61,7 +61,7 @@ public interface Constant {
     /**
      * topic:share
      */
-    String TOPIC_ARTICLE = "article";
+    String TOPIC_ARTICLE = "articles";
 
     /**
      * system user ID

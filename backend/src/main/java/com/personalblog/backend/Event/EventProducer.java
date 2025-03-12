@@ -1,7 +1,9 @@
 package com.personalblog.backend.Event;
 
 
+import com.alibaba.fastjson2.JSONObject;
 import com.personalblog.backend.dao.ArticleRepository;
+import com.personalblog.backend.entity.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaUtils;
@@ -16,8 +18,8 @@ public class EventProducer {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public void sendMessage(String topic, int ArticleId) {
-        kafkaTemplate.send("article", String.valueOf(ArticleId));
+    public void sendMessage(Event event) {
+        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
     }
 
 }
