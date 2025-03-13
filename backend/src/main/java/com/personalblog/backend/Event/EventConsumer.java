@@ -53,7 +53,7 @@ public class EventConsumer implements Constant {
 
         assert channel.orElse(null) != null;
         ArticleDocument esArticle = new ArticleDocument(
-                        article.getId().toString(),
+                        article.getId(),
                         article.getTitle(),
                         article.getUserId().toString(),
                         article.getContent(),

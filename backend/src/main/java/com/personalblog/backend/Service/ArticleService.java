@@ -66,6 +66,7 @@ public class ArticleService {
 
     public Map<String, Object> getArticlesByKeywords(String keyword){
         List<ArticleDocument> list = articleSearchRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+//        System.out.println(list.get(0).toString());
         Map<String, Object> map = new HashMap<>();
         map.put("data", list);
         return map;

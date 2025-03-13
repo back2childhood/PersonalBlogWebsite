@@ -14,9 +14,4 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Bean
-	public RestHighLevelClient client(){
-		return new RestHighLevelClient(RestClient.builder(HttpHost.create("http://localhost:9200")));
-	}
-
 }

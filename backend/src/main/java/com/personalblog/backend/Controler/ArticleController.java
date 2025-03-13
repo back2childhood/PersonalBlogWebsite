@@ -68,18 +68,19 @@ public class ArticleController implements Constant {
         return ResponseEntity.ok(json);
     }
 
-    @GetMapping(path = "/articles")
+    @GetMapping(path = "/article")
     public ResponseEntity<?> getAllArticles(@RequestBody Map<String, String> credentials) {
         String keyword = credentials.get("keyword");
 
         Map<String, Object> map = articleService.getArticlesByKeywords(keyword);
-        String json = new JSONObject(map).toString();
+//        System.out.println("f-------------------fafsafa\n" + map.get("data").toString());
+//        String json = new JSONObject(map).toString();
 
         if (map.containsKey("data")) {
-            System.out.println(json);
-            return ResponseEntity.ok(json);
+//            System.out.println(json);
+            return ResponseEntity.ok(map);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("There are no eligible articles\n");
         }
     }
 }

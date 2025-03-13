@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ArticleSearchRepository extends ElasticsearchRepository<ArticleDocument, String> {
+public interface ArticleSearchRepository extends ElasticsearchRepository<ArticleDocument, Integer> {
     List<ArticleDocument> findByTitleContainingOrContentContaining(String title, String content);
 }
