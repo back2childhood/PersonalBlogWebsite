@@ -10,7 +10,7 @@ The system architecture is as follows:
 
 ## Frontend
 
-The frontend is built using **React**. To run the frontend code, ensure that your computer has **React** and **Node.js** installed.
+The frontend is built using **React**. To run the frontend code, ensure that your computer has **React** and installed.
 
 ## Backend
 
@@ -31,7 +31,7 @@ The entire project is containerized using **Docker** and deployed on **AWS**, ma
 
 ### Prerequisites
 
-- **Node.js** and **React** (for frontend)
+- **React** (for frontend)
 - **Java** and **Spring Boot** (for backend)
 - **MySQL**, **Kafka**, and **Elasticsearch** installed/configured
 

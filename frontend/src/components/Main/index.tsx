@@ -14,7 +14,7 @@ const Main: React.FC = () => {
         <ErrorBoundary>
           <Suspense fallback={<></>}>
             <Routes>
-              <Route path='about' element={<About />} />
+              <Route path='/' element={<About />} />
               <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
           </Suspense>

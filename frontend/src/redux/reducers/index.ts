@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
-export default combineReducers({
+import mode from './mode';
+import navShow from './navShow';
 
+export default combineReducers({
+    mode,
+    navShow
 });

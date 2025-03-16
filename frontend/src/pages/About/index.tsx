@@ -1,4 +1,4 @@
-import { useRequest, useToggle } from 'ahooks';
+import { useRequest } from 'ahooks';
 import React, { useState } from 'react';
 
 import Layout from '@/components/Layout';
@@ -9,12 +9,11 @@ import AboutMe from './AboutMe';
 import s from './index.scss';
 
 const About: React.FC = () => {
-  const [state, { toggle, setLeft, setRight }] = useToggle();
 
   // const [content, setContent] = useState("");
 
   const fetchData = async () => {
-    const data = await fetch("./data.json")
+    const data = await fetch("/assets/data.json")
       .then((res) => res.json());
 
     //     // Convert JSON into Markdown format
@@ -68,12 +67,9 @@ const About: React.FC = () => {
 ${data.status}
       ` : '';
 
-  console.log(data);
-  console.log(markdownContent);
-
   return (
     <Layout title={Title.About} loading={loading}>
-      <AboutMe className={state ? '' : s.hidden} content={markdownContent} />
+      <AboutMe content={markdownContent} />
     </Layout>
   );
 };

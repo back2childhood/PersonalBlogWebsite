@@ -72,7 +72,6 @@
         "highlight.js": "11.1.0",
         "html-webpack-plugin": "5.5.0",
         "husky": "4.3.8",
-        "jinrishici": "^1.0.6",
         "less": "4.1.2",
         "less-loader": "10.2.0",
         "markdown-navbar": "^1.4.3",

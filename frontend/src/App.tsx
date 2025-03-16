@@ -14,43 +14,25 @@ import s from './App.scss';
 import { setMode } from './redux/actions';
 import { storeState } from './redux/interface';
 
-// interface Props {
-//   mode?: number;
-//   setMode?: Function;
-// }
+interface Props {
+  mode?: number;
+  setMode?: Function;
+}
 
-// const App: React.FC<Props> = ({ mode, setMode }) => {
-//   const bgClasses = [s.bg0, s.bg1, s.bg2];
-//   const [localMode] = useLocalStorageState('localMode');
+const App: React.FC<Props> = ({ mode, setMode }) => {
+  const bgClasses = [s.bg0, s.bg1, s.bg2];
+  const [localMode] = useLocalStorageState('localMode');
 
-//   useMount(() => {
-//     if (localMode !== undefined) {
-//       setMode?.(localMode);
-//     }
-//   });
+  console.log('mode', mode);
 
-//   return (
-//     <div className={classNames(s.AppBox, bgClasses[mode!])}>
-//       {/* <Nav /> */}
-//       <Main />
-//       <Footer />
-//       <BackToTop />
-//     </div>
-//   );
-// };
-
-// export default connect(
-//   (state: storeState) => ({
-//     mode: state.mode
-//   }),
-//   { setMode }
-// )(App);
-
-
-const App: React.FC = () => {
+  useMount(() => {
+    if (localMode !== undefined) {
+      setMode?.(localMode);
+    }
+  });
 
   return (
-    <div className={classNames(s.AppBox, s.bg0)}>
+    <div className={classNames(s.AppBox, bgClasses[mode!])}>
       {/* <Nav /> */}
       <Main />
       <Footer />
@@ -59,4 +41,9 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default connect(
+  (state: storeState) => ({
+    mode: state.mode
+  }),
+  { setMode }
+)(App);
