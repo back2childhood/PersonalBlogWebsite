@@ -1,7 +1,7 @@
 
 export const source_github = 'https://github.com/back2childhood/PersonalBlogWebsite';
 
-export const siteTitle = 'Jili\'s Blog';
+export const siteTitle = 'Jili\'s Space';
 
 export const githubUrl = 'https://github.com/back2childhood';
 
@@ -11,10 +11,10 @@ export const csdnUrl = 'https://blog.csdn.net/weixin_44609676?spm=1001.2014.3001
 export const count_id = 'cd045e756100126d005169f014931c65';
 
 // 微信二维码地址
-export const weChatQRCode = 'https://img.lzxjack.top:99/202203302344287.webp';
+// export const weChatQRCode = 'https://img.lzxjack.top:99/202203302344287.webp';
 
 // ins link
-export const InsUrl = 'https://img.lzxjack.top:99/202203302344287.webp';
+export const InsUrl = 'https://instagram.com/jelly_qian';
 
 // LinkedIn Link
 export const linkedInUrl = 'https://www.linkedin.com/in/jili-qian-5211422aa/';
@@ -33,7 +33,7 @@ export const staleTime = 180000;
 export const siteCountStale = 300000;
 
 // page info
-export const homeSize = 8;
+export const homeSize = 5;
 export const msgSize = 10;
 export const detailPostSize = 10;
 

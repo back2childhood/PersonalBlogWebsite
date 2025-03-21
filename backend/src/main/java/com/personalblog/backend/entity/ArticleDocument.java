@@ -18,19 +18,22 @@ public class ArticleDocument {
     @Id
     private Integer id;
 //    @Field(type = FieldType.Text, analyzer = "ik_smart", searchAnalyzer = "ik_max_word")
+    @Field(type = FieldType.Text, analyzer = "ik_smart", searchAnalyzer = "ik_max_word")
     private String title;
+    @Field(type = FieldType.Text, analyzer = "ik_smart", searchAnalyzer = "ik_max_word")
     private String content;
     private String author;
-    private String channel;
+    @Field(type = FieldType.Keyword)  // Use Keyword for exact matches
+    private List<String> channels;  // List of channels
 
     public ArticleDocument() {}
 
-    public ArticleDocument(Integer id, String title, String author, String content, String channel) {
+    public ArticleDocument(Integer id, String title, String content, String author, List<String> channels) {
         this.id = id;
         this.title = title;
-        this.author = author;
         this.content = content;
-        this.channel = channel;
+        this.author = author;
+        this.channels = channels;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class ArticleDocument {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
-                ", channel='" + channel + '\'' +
+                ", channels=" + channels +
                 '}';
     }
 
@@ -60,7 +63,7 @@ public class ArticleDocument {
         return author;
     }
 
-    public String getChannel() {
-        return channel;
+    public List<String> getChannels() {
+        return channels;
     }
 }

@@ -6,9 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,11 +46,24 @@ public class Article {
     @Column(name = "comment_count")
     private Integer commentCount;
 
-    @Column(name = "channel")
-    private Integer channel;
+    @ManyToMany
+    @JoinTable(
+            name = "articles_channels",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
+    )
+    private Set<Channel> channels = new HashSet<>();
+
+    public void setChannels(Set<Channel> channels) {
+        this.channels = channels;
+    }
 
     public Integer getId() {
         return id;
+    }
+
+    public Set<Channel> getChannels() {
+        return channels;
     }
 
     public Integer getUserId() {
@@ -78,10 +92,6 @@ public class Article {
 
     public Integer getCommentCount() {
         return commentCount;
-    }
-
-    public Integer getChannel() {
-        return channel;
     }
 
     public void setId(Integer id) {
@@ -116,7 +126,4 @@ public class Article {
         this.commentCount = commentCount;
     }
 
-    public void setChannel(Integer channel) {
-        this.channel = channel;
-    }
 }

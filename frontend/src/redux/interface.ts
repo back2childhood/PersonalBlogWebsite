@@ -1,6 +1,6 @@
 export interface storeState {
   navShow: boolean;
-  // artSum: number;
+  artSum: number;
   // name: string;
   // link: string;
   // email: string;

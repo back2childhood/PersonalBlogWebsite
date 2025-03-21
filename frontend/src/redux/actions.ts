@@ -13,10 +13,10 @@ export const setNavShow = (data: boolean) => ({
   data
 });
 
-// export const setArtSum = (data: number) => ({
-//   type: SET_ART_SUM,
-//   data
-// });
+export const setArtSum = (data: number) => ({
+  type: SET_ART_SUM,
+  data
+});
 
 // export const setName = (data: string) => ({
 //   type: SET_NAME,

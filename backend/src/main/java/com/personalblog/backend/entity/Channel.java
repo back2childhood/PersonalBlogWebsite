@@ -1,10 +1,10 @@
 package com.personalblog.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +20,9 @@ public class Channel {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @ManyToMany(mappedBy = "channels")
+    private Set<Article> articles = new HashSet<>();
 
     public Integer getId() {
         return id;

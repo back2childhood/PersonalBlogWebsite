@@ -107,6 +107,31 @@ export default userReducer
 }
 ```
 3. The following are the core code of generating token with JWT.
+dependencies:
+```xml
+<!--		 jwt-->
+<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+<dependency>
+   <groupId>io.jsonwebtoken</groupId>
+   <artifactId>jjwt-api</artifactId>
+   <version>0.12.6</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+<dependency>
+   <groupId>io.jsonwebtoken</groupId>
+   <artifactId>jjwt-impl</artifactId>
+   <version>0.12.6</version>
+   <scope>runtime</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+<dependency>
+   <groupId>io.jsonwebtoken</groupId>
+   <artifactId>jjwt-jackson</artifactId>
+   <version>0.12.6</version>
+   <scope>runtime</scope>
+</dependency>
+```
+
 ```java
 package com.personalblog.backend.utils;
 

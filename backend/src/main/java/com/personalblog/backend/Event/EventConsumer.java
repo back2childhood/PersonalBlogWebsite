@@ -15,7 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -44,20 +48,25 @@ public class EventConsumer implements Constant {
         Event event = JSONObject.parseObject(message, Event.class);
         System.out.println(event.toString());
         if (event == null) {
-            logger.error("消息格式错误!");
+            logger.error("wrong message format!");
             return;
         }
 
         Article article = articleService.getArticleById(event.getEntityId());
-        Optional<Channel> channel = channelRepository.findById(article.getChannel());
 
-        assert channel.orElse(null) != null;
+        Set<Channel> channels = article.getChannels();
+        List<String> channelIds = channels.stream().map(Channel::getName).collect(Collectors.toList());
+
+//        for(Channel channel : channels){
+//            channelRepository.findById(channel.getId());
+//        }
+
         ArticleDocument esArticle = new ArticleDocument(
                         article.getId(),
                         article.getTitle(),
                         article.getUserId().toString(),
                         article.getContent(),
-                        channel.orElse(null).getName()
+                        channelIds
                 );
 
         articleSearchRepository.save(esArticle);  // Save to Elasticsearch

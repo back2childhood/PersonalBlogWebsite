@@ -1,0 +1,80 @@
+{
+    "channels": [
+        {
+            "channel": "C++",
+            "count": 0
+        },
+        {
+            "channel": "Java",
+            "count": 0
+        },
+        {
+            "channel": "Python",
+            "count": 0
+        },
+        {
+            "channel": "JavaScript",
+            "count": 0
+        },
+        {
+            "channel": "MySQL",
+            "count": 0
+        },
+        {
+            "channel": "Kafka",
+            "count": 0
+        },
+        {
+            "channel": "MongoDB",
+            "count": 0
+        },
+        {
+            "channel": "Redis",
+            "count": 0
+        },
+        {
+            "channel": "Elasticsearch",
+            "count": 0
+        },
+        {
+            "channel": "Linux",
+            "count": 0
+        },
+        {
+            "channel": "Docker",
+            "count": 0
+        },
+        {
+            "channel": "Kubernetes",
+            "count": 0
+        },
+        {
+            "channel": "Git",
+            "count": 0
+        },
+        {
+            "channel": "Cassandra",
+            "count": 0
+        },
+        {
+            "channel": "nvim",
+            "count": 0
+        },
+        {
+            "channel": "useful tools",
+            "count": 0
+        },
+        {
+            "channel": "React",
+            "count": 0
+        },
+        {
+            "channel": "Books",
+            "count": 0
+        },
+        {
+            "channel": "Build web",
+            "count": 0
+        }
+    ]
+}

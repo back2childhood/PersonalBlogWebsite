@@ -37,3 +37,6 @@ build/
 
 ### MAC
 .DS_Store
+
+### JAR
+/out

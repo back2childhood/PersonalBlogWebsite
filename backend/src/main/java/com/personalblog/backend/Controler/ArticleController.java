@@ -18,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000/"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
+@RequestMapping("/article")
 public class ArticleController implements Constant {
 
     @Autowired
@@ -26,7 +27,7 @@ public class ArticleController implements Constant {
     @Autowired
     private EventProducer eventProducer;
 
-    @GetMapping(path = "/channel")
+    @GetMapping(path = "/channels")
     public ResponseEntity<?> getAllChannel() {
 
         Map<String, Object> map = articleService.getChannels();
@@ -40,19 +41,19 @@ public class ArticleController implements Constant {
         }
     }
 
-    @PostMapping(path = "/article")
-    public ResponseEntity<?> createArticle(@RequestBody Map<String, String> credentials,
+    @PostMapping()
+    public ResponseEntity<?> createArticle(@RequestBody Map<String, Object> credentials,
                                            @RequestHeader("Authorization") String token) {
-        String title = credentials.get("title");
-        String content = credentials.get("content");
-        int channelId = Integer.parseInt(credentials.get("channel_id"));
-        String cover = credentials.get("cover");
-        boolean draft = Boolean.parseBoolean(credentials.get("draft"));
+        String title = (String) credentials.get("title");
+        String content = (String) credentials.get("content");
+        List<Integer> channels = (List<Integer>) credentials.get("channel_id");
+        String cover = (String) credentials.get("cover");
+        boolean draft = Boolean.parseBoolean((String) credentials.get("draft"));
 
 //        System.out.println(title + " " + content + " " + channelId + " " + cover + " " + draft);
 
         User user = JWTUtils.getUserFromToken(token);
-        Integer articleId = articleService.createArticle(title, content, channelId, cover, draft, user.getUsername());
+        Integer articleId = articleService.createArticle(title, content, channels, cover, draft, user.getUsername());
 
         // send message to kafka
         Event event = new Event()
@@ -68,19 +69,48 @@ public class ArticleController implements Constant {
         return ResponseEntity.ok(json);
     }
 
-    @GetMapping(path = "/article")
-    public ResponseEntity<?> getAllArticles(@RequestBody Map<String, String> credentials) {
-        String keyword = credentials.get("keyword");
-
+    @GetMapping(params = "keyword")
+    public ResponseEntity<?> getArticlesByKeywords(@RequestParam(required = false) String keyword) {
         Map<String, Object> map = articleService.getArticlesByKeywords(keyword);
-//        System.out.println("f-------------------fafsafa\n" + map.get("data").toString());
-//        String json = new JSONObject(map).toString();
 
         if (map.containsKey("data")) {
-//            System.out.println(json);
             return ResponseEntity.ok(map);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("There are no eligible articles\n");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no eligible articles\n");
+        }
+    }
+
+    @GetMapping(params = "id")
+    public ResponseEntity<?> getArticleById(@RequestParam(required = false) Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", articleService.getArticleById(id));
+
+        if (map.containsKey("data")) {
+            return ResponseEntity.ok(map);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no eligible articles\n");
+        }
+    }
+
+    @GetMapping(params = "channel")
+    public ResponseEntity<?> getArticleByChannel(@RequestParam(required = false) Integer id) {
+        Map<String, Object> map = articleService.getArticleByChannel(id);
+
+        if (map.containsKey("data")) {
+            return ResponseEntity.ok(map);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no eligible articles\n");
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllArticles() {
+        Map<String, Object> map = articleService.getAllArticles();
+
+        if (map.containsKey("data")) {
+            return ResponseEntity.ok(map);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no eligible articles\n");
         }
     }
 }

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import Footer from '@/components/Footer';
 import Main from '@/components/Main';
-// import Nav from '@/components/Nav';
+import Nav from '@/components/Nav';
 import BackToTop from '@/components/BackToTop';
 
 import s from './App.scss';
@@ -23,8 +23,6 @@ const App: React.FC<Props> = ({ mode, setMode }) => {
   const bgClasses = [s.bg0, s.bg1, s.bg2];
   const [localMode] = useLocalStorageState('localMode');
 
-  console.log('mode', mode);
-
   useMount(() => {
     if (localMode !== undefined) {
       setMode?.(localMode);
@@ -33,7 +31,7 @@ const App: React.FC<Props> = ({ mode, setMode }) => {
 
   return (
     <div className={classNames(s.AppBox, bgClasses[mode!])}>
-      {/* <Nav /> */}
+      <Nav />
       <Main />
       <Footer />
       <BackToTop />
