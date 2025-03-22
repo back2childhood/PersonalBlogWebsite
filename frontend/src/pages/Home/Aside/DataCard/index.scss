@@ -9,7 +9,7 @@
   align-items: center;
 
   .blogData {
-    width: 64px;
+    width: 80px;
     height: 58px;
     font-size: 18px;
     display: flex;
@@ -28,6 +28,7 @@
     justify-content: center;
     align-items: center;
   }
+
   .num {
     @extend .trans;
     color: $hoverColor;

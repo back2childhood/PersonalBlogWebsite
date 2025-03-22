@@ -1,7 +1,7 @@
 @import '../../../../styles/base.scss';
 @import '../../../../styles/style.scss';
 
-.channelBase {
+.tagBase {
   padding: 0 10px;
   border-radius: 10px;
   color: $textColor;
@@ -43,7 +43,7 @@
     height: 50px;
 
     .date {
-      @extend .channelBase;
+      @extend .tagBase;
       position: absolute;
       bottom: 0;
       display: flex;
@@ -51,22 +51,22 @@
       align-items: center;
     }
 
-    .channels {
+    .tags {
       position: absolute;
       bottom: 0;
       right: 0;
       max-width: 800px;
       height: 30px;
 
-      .channel {
-        @extend .channelBase;
+      .tag {
+        @extend .tagBase;
         display: inline-block;
         margin-right: 20px;
         text-align: center;
         line-height: 30px;
       }
 
-      .channel:last-child {
+      .tag:last-child {
         margin-right: 0;
       }
     }

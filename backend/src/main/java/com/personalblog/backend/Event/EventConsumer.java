@@ -2,11 +2,11 @@ package com.personalblog.backend.Event;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.personalblog.backend.Service.ArticleService;
-import com.personalblog.backend.dao.ChannelRepository;
+import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.elasticsearch.ArticleSearchRepository;
 import com.personalblog.backend.entity.Article;
 import com.personalblog.backend.entity.ArticleDocument;
-import com.personalblog.backend.entity.Channel;
+import com.personalblog.backend.entity.Tag;
 import com.personalblog.backend.entity.Event;
 import com.personalblog.backend.utils.Constant;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class EventConsumer implements Constant {
     private ArticleSearchRepository articleSearchRepository;
 
     @Autowired
-    private ChannelRepository channelRepository;
+    private TagRepository tagRepository;
 
     @KafkaListener(topics = {TOPIC_ARTICLE})
     public void handleArticleMessage(String message) {
@@ -46,27 +46,27 @@ public class EventConsumer implements Constant {
 //        System.out.println(message);
 
         Event event = JSONObject.parseObject(message, Event.class);
-        System.out.println(event.toString());
-        if (event == null) {
-            logger.error("wrong message format!");
-            return;
-        }
 
         Article article = articleService.getArticleById(event.getEntityId());
 
-        Set<Channel> channels = article.getChannels();
-        List<String> channelIds = channels.stream().map(Channel::getName).collect(Collectors.toList());
+        Set<Tag> tags = article.getTags();
 
-//        for(Channel channel : channels){
-//            channelRepository.findById(channel.getId());
-//        }
+//        System.out.println(tags.stream());
+
+        List<String> tagIds = new ArrayList<>();
+//                tags.stream().map(Tag::getName).collect(Collectors.toList());
+
+        for(Tag tag : tags){
+//            System.out.println(tag.getName());
+            tagIds.add(tag.getName());
+        }
 
         ArticleDocument esArticle = new ArticleDocument(
                         article.getId(),
                         article.getTitle(),
                         article.getUserId().toString(),
                         article.getContent(),
-                        channelIds
+                        tagIds
                 );
 
         articleSearchRepository.save(esArticle);  // Save to Elasticsearch

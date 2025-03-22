@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.PageRanges;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,10 @@ public class ArticleController implements Constant {
     @Autowired
     private EventProducer eventProducer;
 
-    @GetMapping(path = "/channels")
-    public ResponseEntity<?> getAllChannel() {
+    @GetMapping(path = "/tags")
+    public ResponseEntity<?> getAllTags() {
 
-        Map<String, Object> map = articleService.getChannels();
+        Map<String, Object> map = articleService.getTags();
 
         String json = new JSONObject(map).toString();
 
@@ -46,14 +47,14 @@ public class ArticleController implements Constant {
                                            @RequestHeader("Authorization") String token) {
         String title = (String) credentials.get("title");
         String content = (String) credentials.get("content");
-        List<Integer> channels = (List<Integer>) credentials.get("channel_id");
+        List<Integer> tags = (List<Integer>) credentials.get("tag_id");
         String cover = (String) credentials.get("cover");
         boolean draft = Boolean.parseBoolean((String) credentials.get("draft"));
 
-//        System.out.println(title + " " + content + " " + channelId + " " + cover + " " + draft);
+//        System.out.println(title + " " + content + " " + tagId + " " + cover + " " + draft);
 
         User user = JWTUtils.getUserFromToken(token);
-        Integer articleId = articleService.createArticle(title, content, channels, cover, draft, user.getUsername());
+        Integer articleId = articleService.createArticle(title, content, tags, cover, draft, user.getUsername());
 
         // send message to kafka
         Event event = new Event()
@@ -69,8 +70,8 @@ public class ArticleController implements Constant {
         return ResponseEntity.ok(json);
     }
 
-    @GetMapping(params = "keyword")
-    public ResponseEntity<?> getArticlesByKeywords(@RequestParam(required = false) String keyword) {
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<?> getArticlesByKeywords(@PathVariable String keyword) {
         Map<String, Object> map = articleService.getArticlesByKeywords(keyword);
 
         if (map.containsKey("data")) {
@@ -80,8 +81,8 @@ public class ArticleController implements Constant {
         }
     }
 
-    @GetMapping(params = "id")
-    public ResponseEntity<?> getArticleById(@RequestParam(required = false) Integer id) {
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> getArticleById(@PathVariable Integer id) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", articleService.getArticleById(id));
 
@@ -92,9 +93,9 @@ public class ArticleController implements Constant {
         }
     }
 
-    @GetMapping(params = "channel")
-    public ResponseEntity<?> getArticleByChannel(@RequestParam(required = false) Integer id) {
-        Map<String, Object> map = articleService.getArticleByChannel(id);
+    @GetMapping("/tag/{tagId}")
+    public ResponseEntity<?> getArticleByTag(@PathVariable Integer tagId) {
+        Map<String, Object> map = articleService.getArticlesByTag(tagId);
 
         if (map.containsKey("data")) {
             return ResponseEntity.ok(map);
@@ -103,14 +104,26 @@ public class ArticleController implements Constant {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllArticles() {
-        Map<String, Object> map = articleService.getAllArticles();
+    @GetMapping("/page")
+    public ResponseEntity<?> getAllArticlesByPage(@RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(defaultValue = "5") int pagesize) {
+        Map<String, Object> map = articleService.getAllArticlesByPage(page - 1, pagesize);
 
         if (map.containsKey("data")) {
             return ResponseEntity.ok(map);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There are no eligible articles\n");
+        }
+    }
+
+    @GetMapping("/data")
+    public ResponseEntity<?> getData() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", articleService.getArticlesData());
+        if (map.containsKey("data")) {
+            return ResponseEntity.ok(map);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fetch data failed\n");
         }
     }
 }

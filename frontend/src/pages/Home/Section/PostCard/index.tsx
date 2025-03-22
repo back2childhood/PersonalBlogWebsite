@@ -5,31 +5,19 @@ import Card from '@/components/Card';
 
 import s from './index.scss';
 import PostCardLoading from './PostCardLoading';
-import { getJoke } from '@/utils/apis/getJoke';
 
 interface Props {
   title?: string;
   content?: string;
-  date?: number;
-  channels?: string[];
+  createTime?: string;
+  tags?: { id: number, name: string }[];
+  userId?: string;
   loading?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 
-const PostCard: React.FC<Props> = ({ title, content, date, channels, loading, onClick }) => {
-
-
-  const [joke, setJoke] = useState<string>('');
-
-  useEffect(() => {
-    const fetchJoke = async () => {
-      const joke = await getJoke();
-      setJoke(joke);
-    };
-
-    fetchJoke();
-  }, []);
+const PostCard: React.FC<Props> = ({ title, content, createTime, tags, userId, loading, onClick }) => {
 
   return (
     <Card className={s.card} isStatic={true} onClick={onClick}>
@@ -39,15 +27,15 @@ const PostCard: React.FC<Props> = ({ title, content, date, channels, loading, on
         <>
           <div className={s.title}>{title}</div>
           <p className={s.content}>
-            {/* {content!.replace(/<a(.*?)>(.*?)<\/a>/g, '$2').replace(/[# |**|`|>]/g, '')} */}
-            {joke}
+            {content!.replace(/<a(.*?)>(.*?)<\/a>/g, '$2').replace(/[#|**|`|>]/g, '')}
           </p>
           <div className={s.info}>
-            <span className={s.date}>{dayjs(date!).format('YYYY-MM-DD')}</span>
-            <div className={s.channels}>
-              {channels!.map(channel => (
-                <span className={s.channel} key={channel}>
-                  {channel}
+            <span className={s.date}>{createTime?.substring(0, 9)}</span>
+            {/* <span className={s.date}>{getUserInfo(userId)}</span> */}
+            <div className={s.tags}>
+              {tags!.map(tag => (
+                <span className={s.tag} key={tag.id}>
+                  {tag.name}
                 </span>
               ))}
             </div>

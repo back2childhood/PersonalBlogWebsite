@@ -1,18 +1,18 @@
 package com.personalblog.backend;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.personalblog.backend.dao.ChannelRepository;
+import com.personalblog.backend.dao.ArticleRepository;
+import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.UserRepository;
-import com.personalblog.backend.entity.Channel;
+import com.personalblog.backend.entity.Article;
+import com.personalblog.backend.entity.Tag;
 import com.personalblog.backend.entity.User;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.personalblog.backend.utils.JWTUtils.createToken;
 import static com.personalblog.backend.utils.JWTUtils.parseToken;
@@ -24,7 +24,10 @@ class WebAppApplicationTests {
 	private UserRepository userRepository;
 
 	@Autowired
-	private ChannelRepository channelRepository;
+	private TagRepository tagRepository;
+
+	@Autowired
+	private ArticleRepository articleRepository;
 
 	@Test
 	void testJpaSelect(){
@@ -43,13 +46,28 @@ class WebAppApplicationTests {
 
 	@Test
 	void testJson(){
-		List<Channel> list = channelRepository.findAll();
-//		for(Channel channel:list){
-//			System.out.println(channel.getName());
+		List<Tag> list = tagRepository.findAll();
+//		for(Tag tag:list){
+//			System.out.println(tag.getName());
 //		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("data", list);
 		String json = new JSONObject(map).toString();
 		System.out.println(json);
+	}
+
+	@Test
+	void testDebug(){
+		List<Article> article = articleRepository.findAll();
+//		Set<Tag> set = new HashSet<>();
+//		if(article.isPresent()){
+////			Article a = article.get();
+////			Hibernate.initialize(a.getTags());  // Initialize the collection
+//			set = article.get().getTags();
+//		}
+//		System.out.println(set.toString());
+//		for(Tag tag : set){
+//			System.out.println(tag.getName());
+//		}
 	}
 }

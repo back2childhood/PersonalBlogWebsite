@@ -9,7 +9,7 @@ const request = axios.create({
 });
 
 const axiosAPI = (url: string, method: Method, params: object | null = {}) => {
-    return axios({
+    return request({
         url,
         method,
         params: params ?? {}, // Ensure it's always an object

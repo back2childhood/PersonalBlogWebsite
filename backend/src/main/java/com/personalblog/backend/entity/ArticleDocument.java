@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 
 @Data
-@Document(indexName = "articles")
+@Document(indexName = "articles_v2")
 public class ArticleDocument {
 
     @Id
@@ -24,7 +24,7 @@ public class ArticleDocument {
     private String content;
     private String author;
     @Field(type = FieldType.Keyword)  // Use Keyword for exact matches
-    private List<String> channels;  // List of channels
+    private List<String> tags;  // List of channels
 
     public ArticleDocument() {}
 
@@ -33,7 +33,7 @@ public class ArticleDocument {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.channels = channels;
+        this.tags = channels;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ArticleDocument {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
-                ", channels=" + channels +
+                ", channels=" + tags +
                 '}';
     }
 
@@ -64,6 +64,6 @@ public class ArticleDocument {
     }
 
     public List<String> getChannels() {
-        return channels;
+        return tags;
     }
 }

@@ -1,15 +1,18 @@
 package com.personalblog.backend.Service;
 
 import com.personalblog.backend.dao.ArticleRepository;
-import com.personalblog.backend.dao.ChannelRepository;
+import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.UserRepository;
 import com.personalblog.backend.dao.elasticsearch.ArticleSearchRepository;
 import com.personalblog.backend.entity.Article;
 import com.personalblog.backend.entity.ArticleDocument;
-import com.personalblog.backend.entity.Channel;
+import com.personalblog.backend.entity.Tag;
 import com.personalblog.backend.entity.User;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,7 +22,7 @@ import java.util.*;
 public class ArticleService {
 
     @Autowired
-    private ChannelRepository channelRepository;
+    private TagRepository tagRepository;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -30,16 +33,16 @@ public class ArticleService {
     @Autowired
     private ArticleSearchRepository articleSearchRepository;
 
-    public Map<String, Object> getChannels(){
-        List<Channel> list = channelRepository.findAll();
+    public Map<String, Object> getTags(){
+        List<Tag> list = tagRepository.findAll();
         Map<String, Object> map = new HashMap<>();
-        map.put("channels", list);
+        map.put("tags", list);
         Map<String, Object> res = new HashMap<>();
         res.put("data", map);
         return res;
     }
 
-    public Integer createArticle(String title, String content, List<Integer> channelList,
+    public Integer createArticle(String title, String content, List<Integer> tagList,
                                 String cover, boolean draft, String author){
         Article article = new Article();
         article.setTitle(title);
@@ -49,14 +52,14 @@ public class ArticleService {
         article.setDraft(draft? 1 : 0);
         article.setCreateTime(Instant.now());
 
-        // Fetch the selected channels
-        Set<Channel> channels = new HashSet<>();
-        for (Integer channelId : channelList) {
-            Optional<Channel> channel = channelRepository.findById(channelId);
-//                    .orElseThrow(() -> new ResourceNotFoundException("Channel not found with id: " + channelId));
-            channels.add(channel.orElse(null));
+        // Fetch the selected tags
+        Set<Tag> tags = new HashSet<>();
+        for (Integer tagId : tagList) {
+            Optional<Tag> tag = tagRepository.findById(tagId);
+//                    .orElseThrow(() -> new ResourceNotFoundException("tag not found with id: " + tagId));
+            tags.add(tag.orElse(null));
         }
-        article.setChannels(channels);
+        article.setTags(tags);
 
         Optional<User> user = userRepository.findUserByUsername(author);
         user.ifPresent(value -> article.setUserId(value.getId()));
@@ -79,19 +82,33 @@ public class ArticleService {
         return map;
     }
 
-    public Map<String, Object> getArticleByChannel(Integer channelId){
-//        Channel channel = channelRepository.findByChannelName(channelName)
-//                .orElseThrow(() -> new ResourceNotFoundException("Channel not found with name: " + channelName));
+    public Map<String, Object> getArticlesByTag(Integer tagId){
+//        Tag tag = tagRepository.findByTagName(tagName)
+//                .orElseThrow(() -> new ResourceNotFoundException("Tag not found with name: " + tagName));
         Map<String, Object> map = new HashMap<>();
-        List<Article> list = articleRepository.findArticlesByChannelId(channelId);
+        List<Article> list = articleRepository.findArticlesByTagId(tagId);
         map.put("data", list);
         return map;
     }
 
-    public Map<String, Object> getAllArticles(){
-        List<Article> list = articleRepository.findAll();
+    public Map<String, Object> getAllArticlesByPage(int currentPage, int pageSize){
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+//        System.out.println("currentPage: " + currentPage + " pageSize: " + pageSize);
+        Page<Article> pageResult = articleRepository.findAll(pageable);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", pageResult.getContent());  //  Articles list
+//        response.put("totalPages", pageResult.getTotalPages());  //  Total number of pages
+//        response.put("totalElements", pageResult.getTotalElements());  //  Total articles count
+//        response.put("currentPage", currentPage);
+
+        return response;
+    }
+
+    public Map<String, Object> getArticlesData(){
         Map<String, Object> map = new HashMap<>();
-        map.put("data", list);
+        map.put("articles", articleRepository.count());
+        map.put("tags", tagRepository.count());
         return map;
     }
 }

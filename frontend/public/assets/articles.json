@@ -4,7 +4,7 @@
         "title": "TEST Introduction to Kubernetes",
         "content": "Kubernetes is an open-source container orchestration platform...",
         "date": "2025-03-18",
-        "channels": [
+        "tags": [
             "Kubernetes",
             "Docker"
         ]
@@ -14,7 +14,7 @@
         "title": "TEST Getting Started with React",
         "content": "React is a popular JavaScript library for building user interfaces...",
         "date": "2025-03-17",
-        "channels": [
+        "tags": [
             "React",
             "JavaScript"
         ]
@@ -24,7 +24,7 @@
         "title": "TEST Understanding Kafka for Event Streaming",
         "content": "Kafka is a distributed event streaming platform for high-performance data pipelines...",
         "date": "2025-03-16",
-        "channels": [
+        "tags": [
             "Kafka",
             "MySQL"
         ]
@@ -34,7 +34,7 @@
         "title": "TEST Exploring NoSQL Databases: MongoDB and Cassandra",
         "content": "NoSQL databases provide flexibility and scalability...",
         "date": "2025-03-15",
-        "channels": [
+        "tags": [
             "MongoDB",
             "Cassandra"
         ]
@@ -44,7 +44,7 @@
         "title": "TEST Mastering Git for Version Control",
         "content": "Git is an essential tool for modern software development...",
         "date": "2025-03-14",
-        "channels": [
+        "tags": [
             "Git",
             "useful tools"
         ]
@@ -54,7 +54,7 @@
         "title": "TEST Building Scalable Web Applications",
         "content": "Scalability is a key factor in modern web development...",
         "date": "2025-03-13",
-        "channels": [
+        "tags": [
             "Build web",
             "Linux"
         ]
@@ -64,7 +64,7 @@
         "title": "TEST The Power of Redis for Caching",
         "content": "Redis is a high-performance key-value store for caching and real-time analytics...",
         "date": "2025-03-12",
-        "channels": [
+        "tags": [
             "Redis"
         ]
     },
@@ -73,7 +73,7 @@
         "title": "TEST Elasticsearch for Full-Text Search",
         "content": "Elasticsearch is a distributed search engine used for real-time data analysis...",
         "date": "2025-03-11",
-        "channels": [
+        "tags": [
             "Elasticsearch"
         ]
     },
@@ -82,7 +82,7 @@
         "title": "TEST Essential Linux Commands for Developers",
         "content": "Linux is a widely used operating system in development and server environments...",
         "date": "2025-03-10",
-        "channels": [
+        "tags": [
             "Linux",
             "nvim"
         ]
@@ -92,7 +92,7 @@
         "title": "TEST Best Books for Software Engineers",
         "content": "Reading books is one of the best ways to deepen your technical knowledge...",
         "date": "2025-03-09",
-        "channels": [
+        "tags": [
             "Books"
         ]
     }

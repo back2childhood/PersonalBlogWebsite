@@ -7,13 +7,13 @@ export const useLinkList = () => {
   ];
   const secondNavArr = [
     { name: 'Search', to: '/articles' },
-    { name: 'Channels', to: '/channels' }
+    { name: 'Tags', to: '/tags' }
   ];
 
   const mobileNavArr = [
     { name: 'Home', to: '/' },
     { name: 'Articles', to: '/articles' },
-    // { name: 'Channels', to: '/channels' },
+    // { name: 'Tags', to: '/tags' },
     // { name: 'Thoughts', to: '/thoughts' },
     // { name: 'Comments', to: '/comments' },
     { name: 'About', to: '/about' }

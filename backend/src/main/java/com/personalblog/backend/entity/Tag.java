@@ -9,11 +9,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "channel", schema = "my_blog")
+@Table(name = "tag", schema = "my_blog")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Channel {
+public class Tag {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
@@ -21,7 +21,7 @@ public class Channel {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @ManyToMany(mappedBy = "channels")
+    @ManyToMany(mappedBy = "tags")
     private Set<Article> articles = new HashSet<>();
 
     public Integer getId() {
@@ -38,5 +38,12 @@ public class Channel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "id=" + id +
+                ", name='" + name + '\'' + '}';
     }
 }

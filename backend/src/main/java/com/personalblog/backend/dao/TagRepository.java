@@ -1,6 +1,6 @@
 package com.personalblog.backend.dao;
 
-import com.personalblog.backend.entity.Channel;
+import com.personalblog.backend.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChannelRepository extends JpaRepository<Channel, Integer> {
-    Optional<Channel> findById(Integer id);
+public interface TagRepository extends JpaRepository<Tag, Integer> {
+    Optional<Tag> findById(Integer id);
 
     // Find all channels for an article
-    @Query("SELECT c FROM Channel c JOIN c.articles a WHERE a.id = :articleId")
-    List<Channel> findChannelsByArticleId(@Param("articleId") Long articleId);
+    @Query("SELECT c FROM Tag c JOIN c.articles a WHERE a.id = :articleId")
+    List<Tag> findTagsByArticleId(@Param("articleId") Integer articleId);
 }

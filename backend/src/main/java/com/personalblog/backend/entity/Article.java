@@ -33,6 +33,7 @@ public class Article {
     private Instant createTime;
 
     @Column(name = "cover", length = 200)
+    @ColumnDefault("0")
     private String cover;
 
     @ColumnDefault("1")
@@ -48,22 +49,22 @@ public class Article {
 
     @ManyToMany
     @JoinTable(
-            name = "articles_channels",
+            name = "articles_tags",
             joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "channel_id")
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<Channel> channels = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 
-    public void setChannels(Set<Channel> channels) {
-        this.channels = channels;
+    public void setTags(Set<Tag> channels) {
+        this.tags = channels;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Set<Channel> getChannels() {
-        return channels;
+    public Set<Tag> getTags() {
+        return tags;
     }
 
     public Integer getUserId() {

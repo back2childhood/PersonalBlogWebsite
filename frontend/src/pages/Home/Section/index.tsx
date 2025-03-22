@@ -10,16 +10,16 @@ import { homeSize, staleTime } from '@/utils/constant';
 
 import s from './index.scss';
 import PostCard from './PostCard';
+import { getArticles } from '@/utils/apis/getArticles';
 
 interface theAtc {
-  classes: string;
   content: string;
-  date: number;
-  channels: string[];
+  createTime: string;
+  tags: { id: number, name: string }[];
   title: string;
   url: string;
-  _id: string;
-  _openid: string;
+  id: string;
+  userId: string;
 }
 
 interface Props {
@@ -30,17 +30,10 @@ const Section: React.FC<Props> = ({ artSum }) => {
   const navigate = useNavigate();
   const [page, setPage] = useSafeState(1);
 
-  const getArticles = async () => {
-    const data = await fetch("/assets/articles.json")
-      .then(res => res.json())
-
-    // console.log(data)
-    return data;
-  }
-
   const { data, loading } = useRequest(
     getArticles,
     {
+      defaultParams: [{ page, size: homeSize }],
       retryCount: 3,
       refreshDeps: [page],
       // cacheKey: `Section-${DB.Article}-${page}`,
@@ -48,17 +41,20 @@ const Section: React.FC<Props> = ({ artSum }) => {
     }
   );
 
+  // console.log(data?.data);
+
   return (
     <section className={s.section}>
-      {data?.map(({ _id, title, content, date, channels }: theAtc) => (
+      {data?.data.map(({ id, title, content, createTime, tags, userId }: theAtc) => (
         <PostCard
-          key={_id}
+          key={id}
           title={title}
           content={content}
-          date={date}
-          channels={channels}
+          createTime={createTime}
+          tags={tags}
+          userId={userId}
           loading={loading}
-          onClick={() => navigate(`/article/${_id}`)}
+          onClick={() => navigate(`/article/${id}`)}
         />
       ))}
       <MyPagination
