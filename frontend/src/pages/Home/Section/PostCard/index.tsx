@@ -30,7 +30,7 @@ const PostCard: React.FC<Props> = ({ title, content, createTime, tags, userId, l
             {content!.replace(/<a(.*?)>(.*?)<\/a>/g, '$2').replace(/[#|**|`|>]/g, '')}
           </p>
           <div className={s.info}>
-            <span className={s.date}>{createTime?.substring(0, 9)}</span>
+            <span className={s.date}>{createTime?.substring(0, 10)}</span>
             {/* <span className={s.date}>{getUserInfo(userId)}</span> */}
             <div className={s.tags}>
               {tags!.map(tag => (

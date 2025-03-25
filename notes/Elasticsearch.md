@@ -44,6 +44,29 @@ xattr -r -d com.apple.quarantine ./lib/platform/darwin-aarch64/libzstd.dylib
 4. run `sudo keytool -import -trustcacerts -keystore ${JAVA_HOME}/lib/security/cacerts -storepass changeit -noprompt -alias elasticsearch -file [your elasticsearch.crt path]` 
 the default password is changeit unless changed
 
+#### 
+kibana and es-client
+
+## transfer data to new index
+1. Create a New Index with the Updated Mapping
+or copy from an exist file
+2. Reindex Data from Old Index to New Index
+```json
+POST _reindex
+{
+  "source": {
+    "index": "[old index name]"
+  },
+  "dest": {
+    "index": "[new index name]"
+  },
+  "script": {
+    "lang": "painless",
+    "source": "ctx._source.[new filed name] = ctx._source.remove('[old field name]')"
+  }
+}
+```
+
 ## code
 dependencies:
 ```xml
@@ -95,7 +118,7 @@ public ResponseEntity<?> getAllArticles(@RequestBody Map<String, String> credent
   }
 }
 ```
-sava
+save
 ```java
   articleSearchRepository.save(esArticle);  // Save to Elasticsearch
 

@@ -1,6 +1,6 @@
 export interface ArticleType {
-    _id: string;
+    id: string;
     title: string;
-    date: number;
-    titleEng: string;
+    createTime: string;
+    // titleEng: string;
 }

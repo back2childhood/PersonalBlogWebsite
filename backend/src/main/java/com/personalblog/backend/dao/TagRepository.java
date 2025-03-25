@@ -16,4 +16,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     // Find all channels for an article
     @Query("SELECT c FROM Tag c JOIN c.articles a WHERE a.id = :articleId")
     List<Tag> findTagsByArticleId(@Param("articleId") Integer articleId);
+
+    Optional<Tag> findByName(String name);
 }

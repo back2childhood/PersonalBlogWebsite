@@ -31,7 +31,7 @@ const Tags: React.FC = () => {
         <span
           className={s.tagItem}
           key={item.id}
-          onClick={() => navigate(`/article/tag/${item.id}`)}
+          onClick={() => navigate(`/article/tag/${item.name}`)}
         >
           {item.name}
         </span>

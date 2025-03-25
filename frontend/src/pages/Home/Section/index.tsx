@@ -33,7 +33,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
   const { data, loading } = useRequest(
     getArticles,
     {
-      defaultParams: [{ page, size: homeSize }],
+      defaultParams: [{ page, pagesize: homeSize }],
       retryCount: 3,
       refreshDeps: [page],
       // cacheKey: `Section-${DB.Article}-${page}`,
@@ -54,7 +54,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
           tags={tags}
           userId={userId}
           loading={loading}
-          onClick={() => navigate(`/article/${id}`)}
+          onClick={() => navigate(`/article/details/${id}`)}
         />
       ))}
       <MyPagination

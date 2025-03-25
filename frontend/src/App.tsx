@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import BackToTop from '@/components/BackToTop';
 import Footer from '@/components/Footer';
 import Main from '@/components/Main';
 import Nav from '@/components/Nav';
-import BackToTop from '@/components/BackToTop';
 
 import s from './App.scss';
 import { setMode } from './redux/actions';

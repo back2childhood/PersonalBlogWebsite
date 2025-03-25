@@ -19,7 +19,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     // Find all articles for a channel
     @Query("SELECT a FROM Article a JOIN FETCH a.tags c WHERE c.id = :tagId ORDER BY a.createTime DESC")
-    List<Article> findArticlesByTagId(@Param("tagId") Integer tagId);
+    Page<Article> findArticlesByTagId(@Param("tagId") Integer tagId, Pageable pageable);
 
     @Query("SELECT a FROM Article a JOIN FETCH a.tags ORDER BY a.createTime DESC")
     Page<Article> findAll(Pageable pageable);

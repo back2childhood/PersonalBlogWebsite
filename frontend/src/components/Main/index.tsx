@@ -5,11 +5,17 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 
 import s from './index.scss';
 
-import Setting from '@/pages/Setting';
-import Home from '@/pages/Home';
-import Tags from '@/pages/Tags';
+// import Setting from '@/pages/Setting';
+// import Home from '@/pages/Home';
+// import Tags from '@/pages/Tags';
+// import Post from '@/pages/Post';
 
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
+const TagDetail = lazy(() => import('@/pages/TagDetail'));
+const Post = lazy(() => import('@/pages/Post'));
+const Setting = lazy(() => import('@/pages/Setting'));
+const Home = lazy(() => import('@/pages/Home'));
+const Tags = lazy(() => import('@/pages/Tags'));
 
 const Main: React.FC = () => {
   return (
@@ -19,8 +25,9 @@ const Main: React.FC = () => {
           <Suspense fallback={<></>}>
             <Routes>
               <Route path='/' element={<Home />} />
-              {/* <Route path='articles' element={<Articles />} /> */}
-              <Route path='tags' element={<Tags />} />
+              <Route path='article/details/:id' element={<Post />} />
+              <Route path='article/tag/:name' element={<TagDetail />} />
+              <Route path='article/tags' element={<Tags />} />
               <Route path='/setting' element={<Setting />} />
               <Route path='/about' element={<About />} />
               <Route path='*' element={<Navigate to='/' replace />} />

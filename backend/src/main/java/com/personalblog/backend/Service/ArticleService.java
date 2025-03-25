@@ -82,13 +82,24 @@ public class ArticleService {
         return map;
     }
 
-    public Map<String, Object> getArticlesByTag(Integer tagId){
-//        Tag tag = tagRepository.findByTagName(tagName)
+    public Map<String, Object> getArticlesByTag(String tagName, Integer page, Integer pagesize){
+//           Tag tag = tagRepository.findByTagName(tagName)
 //                .orElseThrow(() -> new ResourceNotFoundException("Tag not found with name: " + tagName));
+        Integer tagId = tagRepository.findByName(tagName).map(Tag::getId).orElse(null);
         Map<String, Object> map = new HashMap<>();
-        List<Article> list = articleRepository.findArticlesByTagId(tagId);
-        map.put("data", list);
-        return map;
+        Pageable pageable = PageRequest.of(page, pagesize);
+        Page<Article> pageResult = articleRepository.findArticlesByTagId(tagId, pageable);
+//        for(Article article : pageResult.getContent()){
+//            System.out.println(article.getTitle());
+//        }
+        map.put("articles", pageResult.getContent());
+        map.put("totalPages", pageResult.getTotalPages());
+        map.put("currentPage", pageResult.getNumber());
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", map);
+
+        return res;
     }
 
     public Map<String, Object> getAllArticlesByPage(int currentPage, int pageSize){

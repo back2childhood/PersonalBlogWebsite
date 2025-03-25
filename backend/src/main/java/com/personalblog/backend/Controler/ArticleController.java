@@ -83,6 +83,7 @@ public class ArticleController implements Constant {
 
     @GetMapping("/details/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Integer id) {
+//        System.out.println(id);
         Map<String, Object> map = new HashMap<>();
         map.put("data", articleService.getArticleById(id));
 
@@ -93,9 +94,11 @@ public class ArticleController implements Constant {
         }
     }
 
-    @GetMapping("/tag/{tagId}")
-    public ResponseEntity<?> getArticleByTag(@PathVariable Integer tagId) {
-        Map<String, Object> map = articleService.getArticlesByTag(tagId);
+    @GetMapping("/tag")
+    public ResponseEntity<?> getArticleByTag(@RequestParam String tagName,
+                                             @RequestParam(defaultValue = "1") int page,
+                                             @RequestParam(defaultValue = "5") int pagesize) {
+        Map<String, Object> map = articleService.getArticlesByTag(tagName, page - 1, pagesize);
 
         if (map.containsKey("data")) {
             return ResponseEntity.ok(map);

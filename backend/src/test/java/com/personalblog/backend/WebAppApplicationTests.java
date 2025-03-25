@@ -11,6 +11,9 @@ import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
@@ -58,16 +61,20 @@ class WebAppApplicationTests {
 
 	@Test
 	void testDebug(){
-		List<Article> article = articleRepository.findAll();
-//		Set<Tag> set = new HashSet<>();
-//		if(article.isPresent()){
-////			Article a = article.get();
-////			Hibernate.initialize(a.getTags());  // Initialize the collection
-//			set = article.get().getTags();
-//		}
-//		System.out.println(set.toString());
-//		for(Tag tag : set){
-//			System.out.println(tag.getName());
-//		}
+//		Integer tagId = tagRepository.findByName(tagName).map(Tag::getId).orElse(null);
+		Map<String, Object> map = new HashMap<>();
+		Pageable pageable = PageRequest.of(0, 10);
+		Page<Article> pageResult = articleRepository.findArticlesByTagId(1, pageable);
+		for(Article article : pageResult.getContent()){
+			System.out.println(article.getTitle());
+		}
+		map.put("articles", pageResult.getContent());
+		map.put("totalPages", pageResult.getTotalPages());
+		map.put("currentPage", pageResult.getNumber());
+
+		Map<String, Object> res = new HashMap<>();
+		res.put("data", map);
+
+//		return res;
 	}
 }

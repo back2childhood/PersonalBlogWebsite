@@ -32,7 +32,7 @@ const DataCard: React.FC<Props> = ({ setArtSum }) => {
         <div className={s.name}>Articles</div>
         <div className={s.num}>{data?.data?.articles}</div>
       </div>
-      <div className={s.blogData} onClick={() => navigate('/tags')}>
+      <div className={s.blogData} onClick={() => navigate('/article/tags')}>
         <div className={s.name}>tags</div>
         <div className={s.num}>{data?.data?.tags}</div>
       </div>

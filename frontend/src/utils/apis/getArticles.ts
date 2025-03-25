@@ -21,16 +21,23 @@ export function getArticles(data: object) {
 }
 
 // 
-export function getArticlesByTag() {
+export function getArticlesByTag(data: object) {
     return axiosAPI(
-        '/article/tag/{tagid}',
+        '/article/tag',
         'GET'
+        , data
     )
 }
 
 // get total count of articles, tags
 export const getSum = async () => {
     return await axiosAPI("/article/data", "GET")
+    // .then(res => res)
+    // .catch(err => err);
+}
+
+export const getArticleById = async (id: string) => {
+    return await axiosAPI(`/article/details/${id}`, "GET")
     // .then(res => res)
     // .catch(err => err);
 }
