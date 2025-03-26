@@ -3,9 +3,9 @@ package com.personalblog.backend.Service;
 import com.personalblog.backend.dao.ArticleRepository;
 import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.UserRepository;
-import com.personalblog.backend.dao.elasticsearch.ArticleSearchRepository;
+//import com.personalblog.backend.dao.elasticsearch.ArticleSearchRepository;
 import com.personalblog.backend.entity.Article;
-import com.personalblog.backend.entity.ArticleDocument;
+//import com.personalblog.backend.entity.ArticleDocument;
 import com.personalblog.backend.entity.Tag;
 import com.personalblog.backend.entity.User;
 import lombok.Data;
@@ -30,8 +30,8 @@ public class ArticleService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ArticleSearchRepository articleSearchRepository;
+//    @Autowired
+//    private ArticleSearchRepository articleSearchRepository;
 
     public Map<String, Object> getTags(){
         List<Tag> list = tagRepository.findAll();
@@ -49,7 +49,7 @@ public class ArticleService {
         article.setContent(content);
         article.setCommentCount(0);
         article.setCover(cover);
-        article.setDraft(draft? 1 : 0);
+        article.setDraft(draft? true : false);
         article.setCreateTime(Instant.now());
 
         // Fetch the selected tags
@@ -75,7 +75,7 @@ public class ArticleService {
     }
 
     public Map<String, Object> getArticlesByKeywords(String keyword){
-        List<ArticleDocument> list = articleSearchRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+        List<Article> list = articleRepository.searchArticles(keyword);
 //        System.out.println(list.get(0).toString());
         Map<String, Object> map = new HashMap<>();
         map.put("data", list);

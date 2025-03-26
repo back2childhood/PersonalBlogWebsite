@@ -1,7 +1,7 @@
 package com.personalblog.backend.Controler;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.personalblog.backend.Event.EventProducer;
+//import com.personalblog.backend.Event.EventProducer;
 import com.personalblog.backend.Service.ArticleService;
 import com.personalblog.backend.entity.Event;
 import com.personalblog.backend.entity.User;
@@ -25,8 +25,8 @@ public class ArticleController implements Constant {
     @Autowired
     private ArticleService articleService;
 
-    @Autowired
-    private EventProducer eventProducer;
+//    @Autowired
+//    private EventProducer eventProducer;
 
     @GetMapping(path = "/tags")
     public ResponseEntity<?> getAllTags() {
@@ -56,13 +56,13 @@ public class ArticleController implements Constant {
         User user = JWTUtils.getUserFromToken(token);
         Integer articleId = articleService.createArticle(title, content, tags, cover, draft, user.getUsername());
 
-        // send message to kafka
-        Event event = new Event()
-                .setTopic(TOPIC_ARTICLE)
-                .setUserId(user.getId())
-                .setEntityType(1)
-                .setEntityId(articleId);
-        eventProducer.sendMessage(event);
+//        // send message to kafka
+//        Event event = new Event()
+//                .setTopic(TOPIC_ARTICLE)
+//                .setUserId(user.getId())
+//                .setEntityType(1)
+//                .setEntityId(articleId);
+//        eventProducer.sendMessage(event);
 
         Map<String, Object> map = new HashMap<>();
         map.put("articleId", articleId);

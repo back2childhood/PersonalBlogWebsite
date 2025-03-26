@@ -23,4 +23,10 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     @Query("SELECT a FROM Article a JOIN FETCH a.tags ORDER BY a.createTime DESC")
     Page<Article> findAll(Pageable pageable);
+
+    @Query(value = "SELECT * FROM article WHERE to_tsvector('english', title || ' ' || content) @@ to_tsquery(:keyword)", nativeQuery = true)
+    List<Article> searchArticles(@Param("keyword") String keyword);
+
+    @Query(value = "SELECT * FROM article WHERE metadata->>'author' = :author", nativeQuery = true)
+    List<Article> findByAuthor(@Param("author") String author);
 }

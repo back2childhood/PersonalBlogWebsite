@@ -12,7 +12,7 @@ import java.time.Instant;
 @Table(name = "comment", schema = "my_blog")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 

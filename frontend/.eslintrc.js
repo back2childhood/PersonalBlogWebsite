@@ -25,7 +25,7 @@ module.exports = {
     'no-lone-blocks': 2,
     'require-await': 2,
     'comma-dangle': 2,
-    // 变量定义但未使用
+    // Variable defined but not used
     'no-unused-vars': 2,
     '@typescript-eslint/no-require-imports': 0,
     '@typescript-eslint/explicit-member-accessibility': 0,

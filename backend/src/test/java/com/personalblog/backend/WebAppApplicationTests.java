@@ -34,7 +34,7 @@ class WebAppApplicationTests {
 
 	@Test
 	void testJpaSelect(){
-		Optional<User> user = userRepository.findUserById(123);
+		Optional<User> user = userRepository.findUserById(101);
 		if(user.isPresent()){
 			System.out.println("success");
 		}else{

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -19,26 +19,27 @@ import java.util.Set;
 @Table(name = "article", schema = "my_blog")
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql
+    @GeneratedValue(strategy = GenerationType.AUTO) // PostgreSQL
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "title", nullable = false, length = 100)
+    @CreationTimestamp
+    @Column(name = "title", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private String title;
 
     @Column(name = "create_time", nullable = false)
     private Instant createTime;
 
     @Column(name = "cover", length = 200)
-    @ColumnDefault("0")
+//    @ColumnDefault("0")
     private String cover;
 
-    @ColumnDefault("1")
-    @Column(name = "draft")
-    private Integer draft;
+    @Column(name = "draft", nullable = false)
+    private Boolean draft = true;
 
     @Lob
     @Column(name = "content", nullable = false)
@@ -54,6 +55,13 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
+
+//    @ColumnDefault("false")
+    @Column(name = "hide")
+    private Boolean hide;
+
+    @Column(name = "search_vector", columnDefinition = "tsvector")
+    private String searchVector;
 
     public void setTags(Set<Tag> channels) {
         this.tags = channels;
@@ -83,7 +91,7 @@ public class Article {
         return cover;
     }
 
-    public Integer getDraft() {
+    public Boolean getDraft() {
         return draft;
     }
 
@@ -115,7 +123,7 @@ public class Article {
         this.cover = cover;
     }
 
-    public void setDraft(Integer draft) {
+    public void setDraft(Boolean draft) {
         this.draft = draft;
     }
 
