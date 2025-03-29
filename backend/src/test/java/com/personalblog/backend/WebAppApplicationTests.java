@@ -1,6 +1,7 @@
 package com.personalblog.backend;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.personalblog.backend.Service.ArticleService;
 import com.personalblog.backend.dao.ArticleRepository;
 import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.UserRepository;
@@ -32,14 +33,23 @@ class WebAppApplicationTests {
 	@Autowired
 	private ArticleRepository articleRepository;
 
+	@Autowired
+	private ArticleService articleService;
+
 	@Test
 	void testJpaSelect(){
-		Optional<User> user = userRepository.findUserById(101);
-		if(user.isPresent()){
-			System.out.println("success");
-		}else{
-			System.out.println("fail");
-		}
+//		List<Article> articles = articleRepository.findAll(pageable).getContent();
+////		for (Article article : articles) {
+////			System.out.println(article.getTitle());
+////		}
+//		System.out.println(articles.size());
+		String keyword = "Chaos";
+		int page = 0;
+		int size = 5;
+		Pageable pageable = PageRequest.of(page, size);
+		Map<String, Object> articles = articleService.getArticlesByKeywords(keyword, page, size);
+		System.out.println(articles.get("data").toString());
+//		articles.getOrDefault("data", null);
 	}
 
 	@Test

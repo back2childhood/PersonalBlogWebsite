@@ -3,9 +3,7 @@ package com.personalblog.backend.Service;
 import com.personalblog.backend.dao.ArticleRepository;
 import com.personalblog.backend.dao.TagRepository;
 import com.personalblog.backend.dao.UserRepository;
-//import com.personalblog.backend.dao.elasticsearch.ArticleSearchRepository;
 import com.personalblog.backend.entity.Article;
-//import com.personalblog.backend.entity.ArticleDocument;
 import com.personalblog.backend.entity.Tag;
 import com.personalblog.backend.entity.User;
 import lombok.Data;
@@ -74,12 +72,23 @@ public class ArticleService {
         return article.orElse(null);
     }
 
-    public Map<String, Object> getArticlesByKeywords(String keyword){
-        List<Article> list = articleRepository.searchArticles(keyword);
-//        System.out.println(list.get(0).toString());
+    public Map<String, Object> getArticlesByKeywords(String keyword, int page, int pagesize){
+        Pageable pageable = PageRequest.of(page, pagesize);
+        Page<Article> pageResult = articleRepository.searchArticles(keyword, pageable);
         Map<String, Object> map = new HashMap<>();
-        map.put("data", list);
-        return map;
+        map.put("articles", pageResult.getContent());
+        map.put("totalPages", pageResult.getTotalPages());
+        map.put("currentPage", pageResult.getNumber());
+
+        System.out.println(keyword);
+        for (Article article : pageResult.getContent()) {
+            System.out.println(article.toString());
+        }
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", map);
+
+        return res;
     }
 
     public Map<String, Object> getArticlesByTag(String tagName, Integer page, Integer pagesize){
@@ -89,9 +98,12 @@ public class ArticleService {
         Map<String, Object> map = new HashMap<>();
         Pageable pageable = PageRequest.of(page, pagesize);
         Page<Article> pageResult = articleRepository.findArticlesByTagId(tagId, pageable);
+
+//        System.out.println(tagName);
 //        for(Article article : pageResult.getContent()){
-//            System.out.println(article.getTitle());
+//            System.out.println(article.toString());
 //        }
+
         map.put("articles", pageResult.getContent());
         map.put("totalPages", pageResult.getTotalPages());
         map.put("currentPage", pageResult.getNumber());
@@ -107,13 +119,15 @@ public class ArticleService {
 //        System.out.println("currentPage: " + currentPage + " pageSize: " + pageSize);
         Page<Article> pageResult = articleRepository.findAll(pageable);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", pageResult.getContent());  //  Articles list
-//        response.put("totalPages", pageResult.getTotalPages());  //  Total number of pages
-//        response.put("totalElements", pageResult.getTotalElements());  //  Total articles count
-//        response.put("currentPage", currentPage);
+        Map<String, Object> map = new HashMap<>();
+        map.put("articles", pageResult.getContent());
+        map.put("totalPages", pageResult.getTotalPages());
+        map.put("currentPage", pageResult.getNumber());
 
-        return response;
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", map);
+
+        return res;
     }
 
     public Map<String, Object> getArticlesData(){

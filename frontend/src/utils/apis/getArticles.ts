@@ -12,11 +12,11 @@ export function createArticle(data: object) {
     )
 }
 
-export function getArticles(data: object) {
+export function getArticles(_data: object) {
     return axiosAPI(
         '/article/page',
         'GET',
-        data
+        _data
     )
 }
 
@@ -24,8 +24,8 @@ export function getArticles(data: object) {
 export function getArticlesByTag(data: object) {
     return axiosAPI(
         '/article/tag',
-        'GET'
-        , data
+        'GET',
+        data
     )
 }
 
@@ -40,4 +40,13 @@ export const getArticleById = async (id: string) => {
     return await axiosAPI(`/article/details/${id}`, "GET")
     // .then(res => res)
     // .catch(err => err);
+}
+
+export const getArticleByKeyword = async (data: object) => {
+    // console.log(data);
+    return await axiosAPI(
+        '/article/search',
+        "GET",
+        data
+    )
 }

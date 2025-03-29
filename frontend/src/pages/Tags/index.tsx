@@ -3,7 +3,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Layout from '@/components/Layout';
-import { getArticlesByTag } from '@/utils/apis/getArticles';
 import { staleTime } from '@/utils/constant';
 
 import { Title } from '../titleconfig';
@@ -31,7 +30,7 @@ const Tags: React.FC = () => {
         <span
           className={s.tagItem}
           key={item.id}
-          onClick={() => navigate(`/article/tag/${item.name}`)}
+          onClick={() => navigate(`/article/tag/${encodeURIComponent(item.name)}`)}
         >
           {item.name}
         </span>

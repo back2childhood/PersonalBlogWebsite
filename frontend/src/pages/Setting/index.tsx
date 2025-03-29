@@ -2,32 +2,38 @@ import React from "react";
 
 import Layout from "@/components/Layout";
 import { Title } from "../titleconfig";
-import { useRequest } from "ahooks";
+import { useRequest, useToggle } from "ahooks";
 import { staleTime } from "@/utils/constant";
 import MarkDown from "@/components/MarkDown";
+import Publish from "./Publish";
+import s from './index.scss';
+import Switch from "./Switch";
 
-const Setting: React.FC = () => {
+const About: React.FC = () => {
+    const [state, { toggle, setLeft, setRight }] = useToggle();
 
-    const getData = async () => {
-        const data = await fetch('/assets/setting.json')
-            .then((res) => res.json())
-
-        // console.log(data.placeholder);
-        return data.placeholder;
+    const fetchData = async () => {
     }
 
-    const { data, loading } = useRequest(getData, {
+    const { data, loading } = useRequest(
+        fetchData, {
         retryCount: 3,
+        //   cacheKey: `About-${DB.About}`,
         staleTime
     });
 
     return (
         <Layout title={Title.Setting} loading={loading}>
-            <div>
-                <MarkDown content={data || ''} />
-            </div>
+            <Switch state={state} toggle={toggle} setLeft={setLeft} setRight={setRight} />
+            <Publish className={state ? '' : s.hidden} />
+            {/* <Manage
+                className={state ? s.hidden : ''}
+                content={data?.about.data[0].content}
+                classes={data?.classes.data}
+                artSum={data?.artSum.total}
+            /> */}
         </Layout>
     );
 };
 
-export default Setting;
+export default About;

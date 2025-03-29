@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DisplayBar from '@/components/DisplayBar';
 import Layout from '@/components/Layout';
 import MyPagination from '@/components/MyPagination';
-import { detailPostSize, staleTime } from '@/utils/constant';
+import { defaultPageSize, staleTime } from '@/utils/constant';
 
 import { ArticleType } from '../constant';
 import { getArticlesByTag } from '@/utils/apis/getArticles';
@@ -20,7 +20,7 @@ const ArtDetail: React.FC = () => {
   const { data, loading } = useRequest(
     getArticlesByTag,
     {
-      defaultParams: [{ tagName: name, page, pagesize: detailPostSize }],
+      defaultParams: [{ tagName: name, page, pagesize: defaultPageSize }],
       retryCount: 3,
       refreshDeps: [page],
       // cacheKey: `ArtDetail-${DB.Article}-${JSON.stringify(where)}-${page}`,
@@ -41,7 +41,7 @@ const ArtDetail: React.FC = () => {
       ))}
       <MyPagination
         current={page}
-        defaultPageSize={detailPostSize}
+        defaultPageSize={defaultPageSize}
         total={data?.data.totalPages}
         setPage={setPage}
         autoScroll={true}

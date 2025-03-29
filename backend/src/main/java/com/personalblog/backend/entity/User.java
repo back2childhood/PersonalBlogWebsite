@@ -11,7 +11,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(schema = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -30,7 +30,7 @@ public class User {
 
     @Column(name = "status")
     // 0 - activated; 1 - not activated
-    private Integer status;
+    private Boolean status;
 
     @Column(name = "type", length = 100)
     // 0 - normal user; 1 - admin
@@ -58,7 +58,7 @@ public class User {
         return email;
     }
 
-    public Integer getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
@@ -90,7 +90,7 @@ public class User {
         this.email = email;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

@@ -33,9 +33,10 @@ export const staleTime = 180000;
 export const siteCountStale = 300000;
 
 // page info
-export const homeSize = 5;
-export const msgSize = 10;
-export const detailPostSize = 10;
+// export const homeSize = 5;
+// export const msgSize = 10;
+// export const detailPostSize = 10;
+export const defaultPageSize = 8; // default page size for pagination
 
 // info
 export const myName = 'Jili Qian';

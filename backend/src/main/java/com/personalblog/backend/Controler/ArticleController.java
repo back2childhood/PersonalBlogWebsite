@@ -70,9 +70,15 @@ public class ArticleController implements Constant {
         return ResponseEntity.ok(json);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<?> getArticlesByKeywords(@PathVariable String keyword) {
-        Map<String, Object> map = articleService.getArticlesByKeywords(keyword);
+    @GetMapping("/search")
+    public ResponseEntity<?> getArticlesByKeywords(@RequestParam(required = false) String keyword,
+                                                   @RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "5") int pagesize) {
+
+        if(keyword == null || keyword.isEmpty()){
+            return getAllArticlesByPage(page,pagesize);
+        }
+        Map<String, Object> map = articleService.getArticlesByKeywords(keyword, page - 1, pagesize);
 
         if (map.containsKey("data")) {
             return ResponseEntity.ok(map);
@@ -109,7 +115,7 @@ public class ArticleController implements Constant {
 
     @GetMapping("/page")
     public ResponseEntity<?> getAllArticlesByPage(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "5") int pagesize) {
+                                                  @RequestParam(defaultValue = "5") int pagesize) {
         Map<String, Object> map = articleService.getAllArticlesByPage(page - 1, pagesize);
 
         if (map.containsKey("data")) {
@@ -125,7 +131,7 @@ public class ArticleController implements Constant {
         map.put("data", articleService.getArticlesData());
         if (map.containsKey("data")) {
             return ResponseEntity.ok(map);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fetch data failed\n");
         }
     }

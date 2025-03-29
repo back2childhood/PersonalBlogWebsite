@@ -1,5 +1,6 @@
 package com.personalblog.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tag", schema = "my_blog")
+@Table(name = "tag")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class Tag {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private Set<Article> articles = new HashSet<>();
 
     public Integer getId() {

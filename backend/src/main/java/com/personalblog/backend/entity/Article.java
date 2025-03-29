@@ -1,22 +1,19 @@
 package com.personalblog.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "article", schema = "my_blog")
+@Table(name = "article")
 public class Article {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql
@@ -27,7 +24,6 @@ public class Article {
     @Column(name = "user_id")
     private Integer userId;
 
-    @CreationTimestamp
     @Column(name = "title", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private String title;
 
@@ -41,14 +37,13 @@ public class Article {
     @Column(name = "draft", nullable = false)
     private Boolean draft = true;
 
-    @Lob
     @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "comment_count")
     private Integer commentCount;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "articles_tags",
             joinColumns = @JoinColumn(name = "article_id"),
@@ -134,5 +129,35 @@ public class Article {
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+//                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", createTime=" + createTime +
+//                ", cover='" + cover + '\'' +
+//                ", draft=" + draft +
+                ", content='" + content + '\'' +
+//                ", commentCount=" + commentCount +
+//                ", tags=" + tags +
+//                ", hide=" + hide +
+//                ", searchVector='" + searchVector + '\'' +
+                '}';
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id); // Only use the primary key
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null || getClass() != obj.getClass()) return false;
+//        Article article = (Article) obj;
+//        return Objects.equals(id, article.id);
+//    }
 
 }

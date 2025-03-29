@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import MyPagination from '@/components/MyPagination';
 import { storeState } from '@/redux/interface';
 // import { getPageData } from '@/utils/apis/getPageData';
-import { homeSize, staleTime } from '@/utils/constant';
+import { defaultPageSize, staleTime } from '@/utils/constant';
 
 import s from './index.scss';
 import PostCard from './PostCard';
@@ -33,7 +33,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
   const { data, loading } = useRequest(
     getArticles,
     {
-      defaultParams: [{ page, pagesize: homeSize }],
+      defaultParams: [{ page, pagesize: defaultPageSize }],
       retryCount: 3,
       refreshDeps: [page],
       // cacheKey: `Section-${DB.Article}-${page}`,
@@ -45,7 +45,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
 
   return (
     <section className={s.section}>
-      {data?.data.map(({ id, title, content, createTime, tags, userId }: theAtc) => (
+      {data?.data.articles.map(({ id, title, content, createTime, tags, userId }: theAtc) => (
         <PostCard
           key={id}
           title={title}
@@ -59,7 +59,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
       ))}
       <MyPagination
         current={page}
-        defaultPageSize={homeSize}
+        defaultPageSize={defaultPageSize}
         total={artSum}
         setPage={setPage}
         autoScroll={true}
