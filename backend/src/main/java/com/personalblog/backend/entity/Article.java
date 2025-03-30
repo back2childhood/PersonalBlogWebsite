@@ -17,7 +17,7 @@ import java.util.Set;
 public class Article {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql
-    @GeneratedValue(strategy = GenerationType.AUTO) // PostgreSQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -55,8 +55,8 @@ public class Article {
     @Column(name = "hide")
     private Boolean hide;
 
-    @Column(name = "search_vector", columnDefinition = "tsvector")
-    private String searchVector;
+//    @Column(name = "search_vector", columnDefinition = "tsvector")
+//    private String searchVector;
 
     public void setTags(Set<Tag> channels) {
         this.tags = channels;

@@ -20,7 +20,7 @@ interface Props {
   loading?: boolean;
   isPost?: boolean;
   classes?: string;
-  date?: number;
+  date?: string;
   rows?: number;
 }
 
@@ -44,7 +44,7 @@ const Layout: React.FC<Props> = ({
         {isPost && (
           <div>
             <span className={s.articleDate}>
-              {dayjs(date).format('YYYY-MM-DD HH:mm:ss')}
+              {date?.substring(0, 10)}
             </span>
           </div>
         )}

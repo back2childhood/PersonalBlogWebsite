@@ -8,6 +8,7 @@ import MarkDown from "@/components/MarkDown";
 import Publish from "./Publish";
 import s from './index.scss';
 import Switch from "./Switch";
+import Manage from "./Manage";
 
 const About: React.FC = () => {
     const [state, { toggle, setLeft, setRight }] = useToggle();
@@ -25,13 +26,13 @@ const About: React.FC = () => {
     return (
         <Layout title={Title.Setting} loading={loading}>
             <Switch state={state} toggle={toggle} setLeft={setLeft} setRight={setRight} />
-            <Publish className={state ? '' : s.hidden} />
-            {/* <Manage
-                className={state ? s.hidden : ''}
-                content={data?.about.data[0].content}
-                classes={data?.classes.data}
-                artSum={data?.artSum.total}
-            /> */}
+            <Publish className={state ? s.hidden : ' '} />
+            <Manage
+                className={state ? '' : s.hidden}
+            // content={data?.about.data[0].content}
+            // classes={data?.classes.data}
+            // artSum={data?.artSum.total}
+            />
         </Layout>
     );
 };

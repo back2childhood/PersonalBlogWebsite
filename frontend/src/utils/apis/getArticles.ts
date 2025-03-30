@@ -5,8 +5,9 @@ import { axiosAPI } from "../axios";
 
 // submit an article
 export function createArticle(data: object) {
+    console.log(data)
     return axiosAPI(
-        '/article/?draft=false',
+        '/article',
         'POST',
         data
     )

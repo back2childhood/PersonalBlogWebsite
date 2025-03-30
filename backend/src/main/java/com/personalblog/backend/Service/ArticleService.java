@@ -41,7 +41,7 @@ public class ArticleService {
     }
 
     public Integer createArticle(String title, String content, List<Integer> tagList,
-                                String cover, boolean draft, String author){
+                                String cover, boolean draft, Integer userId) {
         Article article = new Article();
         article.setTitle(title);
         article.setContent(content);
@@ -49,6 +49,7 @@ public class ArticleService {
         article.setCover(cover);
         article.setDraft(draft? true : false);
         article.setCreateTime(Instant.now());
+        article.setUserId(userId);
 
         // Fetch the selected tags
         Set<Tag> tags = new HashSet<>();
@@ -59,8 +60,8 @@ public class ArticleService {
         }
         article.setTags(tags);
 
-        Optional<User> user = userRepository.findUserByUsername(author);
-        user.ifPresent(value -> article.setUserId(value.getId()));
+//        Optional<User> user = userRepository.findUserByUsername(author);
+//        user.ifPresent(value -> article.setUserId(value.getId()));
 
         Article res = articleRepository.save(article);
 

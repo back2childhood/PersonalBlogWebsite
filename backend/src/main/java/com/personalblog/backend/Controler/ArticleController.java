@@ -43,18 +43,19 @@ public class ArticleController implements Constant {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createArticle(@RequestBody Map<String, Object> credentials,
-                                           @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> createArticle(@RequestBody Map<String, Object> credentials
+//                                           @RequestHeader("Authorization") String token
+    ) {
         String title = (String) credentials.get("title");
         String content = (String) credentials.get("content");
-        List<Integer> tags = (List<Integer>) credentials.get("tag_id");
+        List<Integer> tags = (List<Integer>) credentials.get("tags");
         String cover = (String) credentials.get("cover");
-        boolean draft = Boolean.parseBoolean((String) credentials.get("draft"));
+        boolean draft = (boolean) credentials.get("draft");
 
-//        System.out.println(title + " " + content + " " + tagId + " " + cover + " " + draft);
+        System.out.println(title + " " + content + " " + tags + " " + cover + " " + draft);
 
-        User user = JWTUtils.getUserFromToken(token);
-        Integer articleId = articleService.createArticle(title, content, tags, cover, draft, user.getUsername());
+//        User user = JWTUtils.getUserFromToken(token);
+        Integer articleId = articleService.createArticle(title, content, tags, cover, draft, 101);
 
 //        // send message to kafka
 //        Event event = new Event()

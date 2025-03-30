@@ -25,7 +25,7 @@ const Search: React.FC = () => {
     }
   );
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Layout title={Title.Search}>

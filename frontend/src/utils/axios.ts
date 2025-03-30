@@ -12,7 +12,8 @@ const axiosAPI = (url: string, method: Method, params: object | null = {}) => {
     return request({
         url,
         method,
-        params: params ?? {}, // Ensure it's always an object
+        data: method === 'POST' ? params : {}, // Use data for POST
+        params: method !== 'POST' ? params : {}, // Use params for GET
         withCredentials: true
     })
 };
