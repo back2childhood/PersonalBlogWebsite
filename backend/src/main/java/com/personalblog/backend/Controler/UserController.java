@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
+@CrossOrigin(origins = {"http://localhost:3000", "http://jiliblogs.com"}, allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.HEAD})
 public class UserController {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -41,11 +41,13 @@ public class UserController {
         // verify the account and password
         String username = credentials.get("username");
         String password = credentials.get("password");
+
         System.out.println(username + " " + password);
+
         Map<String, Object> map = userService.login(username, password);
         String json = new JSONObject(map).toString();
 
-        if (map.containsKey("token")) {
+        if (map.containsKey("data")) {
             return ResponseEntity.ok(json);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
@@ -64,13 +66,11 @@ public class UserController {
 //        System.out.println("token : " + token);
 
         Map<String, Object> map = userService.getUserInfo(token);
-        String json = new JSONObject(map).toString();
 
         if (map.containsKey("data")) {
-            System.out.println(json);
-            return ResponseEntity.ok(json);
+            return ResponseEntity.ok(map);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
         }
     }
 

@@ -2,19 +2,22 @@
 
 import { axiosAPI } from "../axios";
 
-const { request } = require("@/utils");
+// const { request } = require("@/utils");
 
 // login
-export function loginAPI(formData: object) {
-    return axiosAPI(
+export const loginAPI = async (data: object) => {
+    // console.log(data)
+    return await axiosAPI(
         '/login',
-        'POST',
-        formData
+        "POST",
+        data
     )
+    // .then(res => res)
+    // .catch(err => err);
 }
 
 // get user info
-export function getProfileAPI() {
+export const getProfileAPI = async () => {
     return axiosAPI(
         '/profile',
         'GET'

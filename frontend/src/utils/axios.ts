@@ -4,7 +4,7 @@ import { removeToken, getToken } from './token';
 // import router from '@/router';
 
 const request = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://ec2-54-153-64-0.us-west-1.compute.amazonaws.com:8080',
     headers: { "ngrok-skip-browser-warning": "true" }
 });
 
@@ -54,8 +54,8 @@ request.interceptors.response.use(function (response) {
     else if (error.response.status === 401) {
         removeToken();
         // router.navigate('/login')
-        window.location.href = '/login';
-        window.location.reload()
+        // window.location.href = '/login';
+        // window.location.reload()
     } else {
         return Promise.reject(error);
     }

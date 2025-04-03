@@ -1,4 +1,4 @@
-// 一些公共常量
+// public constants for the server configuration
 const path = require('path');
 
 const ROOT_PATH = path.resolve(__dirname, '../');

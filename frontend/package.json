@@ -1,6 +1,7 @@
 {
     "name": "blog-jack",
     "version": "2.0.0",
+    "homepage": "/",
     "sideEffects": [
         "*.css",
         "*.less",

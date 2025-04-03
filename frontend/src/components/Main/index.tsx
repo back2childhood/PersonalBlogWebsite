@@ -5,10 +5,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 
 import s from './index.scss';
 
-// import Setting from '@/pages/Setting';
-// import Home from '@/pages/Home';
-// import Tags from '@/pages/Tags';
-// import Post from '@/pages/Post';
+import { AuthRoute } from '../AuthRoute/authroute';
 
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
 const TagDetail = lazy(() => import('@/pages/TagDetail'));
@@ -17,6 +14,8 @@ const Setting = lazy(() => import('@/pages/Setting'));
 const Home = lazy(() => import('@/pages/Home'));
 const Tags = lazy(() => import('@/pages/Tags'));
 const Search = lazy(() => import('@/pages/Search'));
+const Login = lazy(() => import('@/pages/Login'));
+
 
 const Main: React.FC = () => {
   return (
@@ -26,12 +25,13 @@ const Main: React.FC = () => {
           <Suspense fallback={<></>}>
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='article/details/:id' element={<Post />} />
-              <Route path='article/tag/:name' element={<TagDetail />} />
-              <Route path='article/tags' element={<Tags />} />
-              <Route path='article/search' element={<Search />} />
-              <Route path='/setting' element={<Setting />} />
+              <Route path='/article/details/:id' element={<Post />} />
+              <Route path='/article/tag/:name' element={<TagDetail />} />
+              <Route path='/article/tags' element={<Tags />} />
+              <Route path='/article/search' element={<Search />} />
               <Route path='/about' element={<About />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/setting' element={<AuthRoute><Setting /></AuthRoute>} />
               <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
           </Suspense>

@@ -4,5 +4,6 @@ export enum Title {
     Setting = 'Setting',
     About = 'About',
     Tags = "Tags",
-    Search = "Search"
+    Search = "Search",
+    Login = 'Login'
 }

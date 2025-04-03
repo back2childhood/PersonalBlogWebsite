@@ -14,7 +14,7 @@ module.exports = merge(common, {
   devtool: false,
   output: {
     path: path.resolve(ROOT_PATH, './build'),
-    publicPath: './',
+    publicPath: '/',
     filename: 'js/[name].[contenthash:8].js',
     chunkFilename: 'js/[name].[contenthash:8].js',
     // 资源

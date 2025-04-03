@@ -21,7 +21,6 @@ import { getTagList } from '@/utils/apis/getTags';
 import { staleTime } from '@/utils/constant';
 import MarkDown from '@/components/MarkDown';
 import { useScrollSync } from '@/utils/hooks/useScrollSync';
-import { number } from 'echarts';
 import { createArticle } from '@/utils/apis/getArticles';
 
 interface Props {

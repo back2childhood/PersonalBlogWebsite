@@ -7,12 +7,15 @@ import s from './index.scss';
 const Footer: React.FC = () => {
   const frameArr = [
     'React',
-    'React Router',
+    // 'React Router',
     'Redux',
-    'Webpack',
-    'AntD',
+    // 'Webpack',
+    'typescript',
     'ahooks',
-    'CloudBase'
+    'Java',
+    'Kafka',
+    'ES',
+    'postgresql'
   ];
 
   return (

@@ -74,8 +74,7 @@ public class UserService {
             }
         }
         String token = JWTUtils.createToken(user.orElse(null));
-        map.put("token", token);
-        map.put("ticket", "success");
+        map.put("data", token);
         return map;
     }
 
