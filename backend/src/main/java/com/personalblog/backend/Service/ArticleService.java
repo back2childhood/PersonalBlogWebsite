@@ -81,10 +81,9 @@ public class ArticleService {
         map.put("totalPages", pageResult.getTotalPages());
         map.put("currentPage", pageResult.getNumber());
 
-        System.out.println(keyword);
-        for (Article article : pageResult.getContent()) {
-            System.out.println(article.toString());
-        }
+//        for (Article article : pageResult.getContent()) {
+//            System.out.println(article.toString());
+//        }
 
         Map<String, Object> res = new HashMap<>();
         res.put("data", map);
@@ -117,11 +116,11 @@ public class ArticleService {
 
     public Map<String, Object> getAllArticlesByPage(int currentPage, int pageSize){
         Pageable pageable = PageRequest.of(currentPage, pageSize);
-//        System.out.println("currentPage: " + currentPage + " pageSize: " + pageSize);
         Page<Article> pageResult = articleRepository.findAll(pageable);
 
         Map<String, Object> map = new HashMap<>();
         map.put("articles", pageResult.getContent());
+//        System.out.println(pageResult.getContent().size());
         map.put("totalPages", pageResult.getTotalPages());
         map.put("currentPage", pageResult.getNumber());
 

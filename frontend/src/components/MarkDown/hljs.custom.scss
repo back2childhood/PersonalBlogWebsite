@@ -6,7 +6,7 @@
   background-color: $codeBg;
   border-radius: 20px;
 
-  // 代码片段
+  // code
   code {
     background-color: $codeBg;
     padding: 0;
@@ -14,7 +14,7 @@
     font-family: 'FiraCode', 'dengxian';
   }
 
-  // 代码高亮主题配置
+  // code highlight
   .hljs-doctag,
   .hljs-keyword,
   .hljs-meta .hljs-keyword,
@@ -117,15 +117,17 @@
   }
 }
 
-/* 滚动条 */
+/* scroll bar */
 #hljs::-webkit-scrollbar {
   height: 12px;
 }
-/* 滚动槽 */
+
+/* scroll track */
 #hljs::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0);
 }
-/* 滚动条滑块 */
+
+/* scroll */
 #hljs::-webkit-scrollbar-thumb {
   background-color: $themeColor2;
   border-bottom-left-radius: 12px;
@@ -137,7 +139,7 @@
     padding: 5rem 10rem;
     border-radius: 12rem;
 
-    // 代码片段
+    // code
     code {
       font-size: 14rem;
     }
@@ -146,6 +148,7 @@
   #hljs::-webkit-scrollbar {
     height: 8rem;
   }
+
   #hljs::-webkit-scrollbar-thumb {
     border-bottom-left-radius: 8rem;
     border-bottom-right-radius: 8rem;

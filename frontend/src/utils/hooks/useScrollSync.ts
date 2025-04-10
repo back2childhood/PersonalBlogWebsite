@@ -5,10 +5,14 @@ export const useScrollSync = () => {
     const leftRef = useRef(null);
     const rightRef = useRef(null);
 
-    const left = leftRef.current! as any;
-    const right = rightRef.current! as any;
+    // const left = leftRef.current! as any;
+    // const right = rightRef.current! as any;
 
     const handleScroll = (event: any) => {
+        const left = leftRef.current as any;
+        const right = rightRef.current as any;
+        if (!left || !right) return;
+
         const scrollTopRatio =
             event.target.scrollTop / (event.target.scrollHeight - event.target.clientHeight);
         if (event.target === left) {

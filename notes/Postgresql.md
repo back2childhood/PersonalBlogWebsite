@@ -1,90 +1,83 @@
-
-
-
+# Postgresql
+Since Postgresql has many fansy features that MySQL doesn't have, and more popular in the world, so I changed MySQL to Postgresql. Here are some specific features of Postgresql.
+#### JSON Querying (MySQL can’t do this)
+PostgreSQL supports native JSONB storage & queries:
+```sql
+SELECT data->'title' FROM posts WHERE data->>'author' = 'John Doe';
+```
+#### HECK Constraints for Data Validation
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    age INT CHECK (age >= 18) -- Prevents invalid data!
+);
+```
+PostgreSQL prevents inserting invalid data, while MySQL often ignores constraints.
+#### EXCLUDE Constraints (Unique in PostgreSQL)
+```sql
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    room_id INT,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    EXCLUDE USING gist (room_id WITH =, tstzrange(start_time, end_time) WITH &&)
+);
+```
+Prevents overlapping bookings—MySQL can’t do this easily!
 ## full-text search
-The behavior you're observing is **normal** and intentional in PostgreSQL's full-text search. Here's why some words like "of/is/as/the" are missing from your `search_vector`, and how the system works:
+The feature of Postgresql I am most interested in is `full-text search`. I am going to introduce how to use it and discuss pros and cons compare with ES.
+#### Create a Full-text Search Index
+First, add a column to the Article table:
+```sql
+ALTER TABLE article ADD COLUMN search_vector tsvector
+GENERATED ALWAYS AS (
+    to_tsvector('english'::regconfig, (COALESCE(title, ''::character varying))::text) || to_tsvector('english'::regconfig, COALESCE(content, ''::text)))
+STORED;
+```
+Then create an index:
+```sql
+CREATE INDEX idx_article_search ON article USING GIN(search_vector);
+```
+#### Custom SQL statement
+```java
+@Query(value = """
+    SELECT * FROM article 
+    WHERE search_vector @@ websearch_to_tsquery('english', :keyword)
+    """,
+        nativeQuery = true)
+Page<Article> searchArticles(@Param("keyword") String keyword, Pageable pageable);
 
----
+@Query(value = "SELECT * FROM article WHERE metadata->>'user_id' = :author", nativeQuery = true)
+List<Article> findByAuthor(@Param("author") String author);
+```
+## A Question During My Test
+#### Description
+While I tested this function, I realized I could get proper result with keyword "mysql/java/spring" but couldn't with "of/is/the". Then I checked the search_vector, it has most of words but some not, include "of/is/as/the".
 
-### **1. Stop Words Elimination**
+#### Reason
 PostgreSQL's full-text search automatically:
-- **Removes "stop words"**: Common short words (articles, prepositions, conjunctions) that don't add search value (`the`, `of`, `is`, etc.)
-- **Stems words**: Reduces words to their root form (`running` → `run`, `better` → `good`)
+- Removes "stop words": Common short words (articles, prepositions, conjunctions) that don't add search value (`the`, `of`, `is`, etc.)
+- Stems words: Reduces words to their root form (`running` → `run`, `better` → `good`)
 
-This is controlled by your text search configuration (`'english'` in your case).
-
----
-
-### **2. View the Actual Tokenization**
-To see exactly how PostgreSQL processes your text:
-
-```sql
--- See how specific text gets tokenized
-SELECT to_tsvector('english', 'This is the content of an article about programming');
-```
-
-**Result** will look like:
-```
-'about':6 'articl':5 'content':3 'program':7
-```
-Notice `this/is/the/of/an` are missing.
-
----
-
-### **3. How to Preserve All Words (If Needed)**
-If you **must** keep stop words (e.g., for legal/medical texts where every word matters):
-
-#### Option A: Use `simple` configuration
-```sql
-ALTER TABLE article 
-ALTER COLUMN search_vector SET GENERATED ALWAYS AS (
-    to_tsvector('simple', coalesce(title, '')) || 
-    to_tsvector('simple', coalesce(content, ''))
-) STORED;
-```
-The `simple` configuration:
-- Keeps all words
-- Does no stemming
-- Case-sensitive
-
-#### Option B: Create a custom dictionary
-1. Edit PostgreSQL's stop word file (advanced)
-2. Or create a custom text search configuration:
-```sql
-CREATE TEXT SEARCH CONFIGURATION my_config (COPY = english);
-ALTER TEXT SEARCH CONFIGURATION my_config DROP MAPPING FOR stopword;
-```
-
----
-
-### **4. Why This is Actually Good**
+This is controlled by text search configuration (such as `'english'` in this case).
 The default behavior:
 - **Improves search quality**: Stop words add noise, not signal
 - **Reduces index size**: By ~30-50%
 - **Speeds up queries**: Fewer terms to compare
+## Pros and Cons
+#### Pros
 
----
+* Searching articles, blog posts, comments (like your project)
 
-### **5. Testing Your Search**
-Verify with queries that should match despite stop word removal:
-```sql
--- Should still match "content of an article"
-SELECT * FROM article 
-WHERE search_vector @@ to_tsquery('english', 'content & article');
-```
+* Simple keyword-based searches
 
----
+* Lower-cost alternatives to Elasticsearch (since AWS OpenSearch is expensive)
 
-### **6. Key Takeaways**
-| Behavior            | Why It Happens               | Should You Change It?        |
-| ------------------- | ---------------------------- | ---------------------------- |
-| Stop words removed  | Standard in full-text search | Only if absolutely necessary |
-| Words stemmed       | "running" matches "run"      | Usually beneficial           |
-| Punctuation ignored | "don't" becomes "dont"       | Expected behavior            |
+#### Cons
 
-For most applications, **the default behavior is ideal**. Only customize if you have specific needs like:
-- Legal document search (where "Party A" vs "Party B" matters)
-- Medical terminology preservation
-- Exact phrase matching with stop words
+* Scalability for massive datasets
 
-Would you like me to show you how to implement one of the customization options?
+* Fuzzy matching & typo tolerance
+
+* Advanced analytics & aggregations (e.g., machine learning-based recommendations)
+

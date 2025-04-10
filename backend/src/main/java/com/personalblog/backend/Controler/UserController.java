@@ -42,7 +42,7 @@ public class UserController {
         String username = credentials.get("username");
         String password = credentials.get("password");
 
-        System.out.println(username + " " + password);
+//        System.out.println(username + " " + password);
 
         Map<String, Object> map = userService.login(username, password);
         String json = new JSONObject(map).toString();

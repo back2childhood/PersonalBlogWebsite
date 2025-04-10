@@ -48,6 +48,16 @@ const Publish: React.FC<Props> = ({ className }) => {
 
   const publishHandle = () => {
     createArticle({ title: title, content: content, tags: tags, cover: "0", draft: false })
+      .then(res => {
+        message.success("Article published successfully!");
+        // Reset fields after successful publish
+        setTitle('');
+        setContent('');
+        setTags([]);
+      })
+      .catch(err => {
+        message.error("Failed to publish article: " + err.message);
+      });
   }
 
   const saveDraftHandle = () => {

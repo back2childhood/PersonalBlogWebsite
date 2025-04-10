@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "article")
+//@Where(clause = "hide = false")
 public class Article {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) // mysql
@@ -43,6 +44,7 @@ public class Article {
     @Column(name = "comment_count")
     private Integer commentCount;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "articles_tags",
@@ -146,18 +148,4 @@ public class Article {
 //                ", searchVector='" + searchVector + '\'' +
                 '}';
     }
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id); // Only use the primary key
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (this == obj) return true;
-//        if (obj == null || getClass() != obj.getClass()) return false;
-//        Article article = (Article) obj;
-//        return Objects.equals(id, article.id);
-//    }
-
 }

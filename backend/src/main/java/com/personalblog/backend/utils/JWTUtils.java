@@ -88,25 +88,24 @@ public class JWTUtils {
         SecretKey sk = Keys.hmacShaKeyFor(keyBytes);
 
         // parse
-        Claims claims = Jwts.parser()
+        // if token was made by sign approach
+        // get the contents after decryption
+
+//        System.out.println(claims.getExpiration().getTime() + " " + System.currentTimeMillis());
+//        String username = claims.get("username", String.class);
+        return Jwts.parser()
                 .verifyWith(sk)
                 .build()
                 // if token was made by sign approach
                 .parseSignedClaims(token)
                 // get the contents after decryption
                 .getPayload();
-
-//        System.out.println(claims.getExpiration().getTime() + " " + System.currentTimeMillis());
-//        String username = claims.get("username", String.class);
-        return claims;
     }
 
     public static User getUserFromToken(String token) {
 
-        System.out.println(token);
+//        System.out.println(token);
         if(token == null || !token.startsWith("Bearer ")){
-            Map<String, Object> map = new HashMap<>();
-            map.put("failed", "please login first");
             return null;
         }
         Claims claims = parseToken(token.substring(7));

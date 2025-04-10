@@ -2,40 +2,68 @@
 @import '../../styles/style.scss';
 
 .marked {
-  word-break: break-all;
+  // change to a new line if the space is not enough
+  word-break: break-word;
+  hyphens: auto;
+  white-space: normal;
+  /* default */
+  overflow-wrap: break-word;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 
   h2,
   h3,
   h4,
-  h5 {
+  h5,
+  h6 {
     margin-top: 0;
     margin-bottom: 15px;
     color: $textColor;
     font-weight: 700;
   }
+
+  h6 {
+    font-size: 20px;
+  }
+
   h5 {
     font-size: 22px;
   }
+
   h4 {
     font-size: 24px;
   }
+
   h3 {
     font-size: 26px;
   }
+
   h2 {
     font-size: 28px;
   }
+
   h2:before {
     content: '✒️';
   }
+
   h3:before {
     content: '✏️';
   }
+
   h4:before {
     content: '📌';
   }
+
   h5:before {
     content: '🏷️';
+  }
+
+  h6:before {
+    content: ' 🔖';
   }
 
   p {
@@ -45,6 +73,7 @@
   strong {
     color: $hoverColor;
   }
+
   code {
     background-color: $inlineCode;
     font-family: 'dengxian';
@@ -67,6 +96,7 @@
     border-radius: 20px;
     border: 2px $hoverColor dashed;
   }
+
   blockquote p {
     margin: 0;
   }
@@ -75,9 +105,11 @@
     margin: 20px auto;
     border: 2px solid rgb(120, 120, 120);
     background-color: $themeColor1;
-    border-spacing: 0; /*去掉单元格间隙*/
+    border-spacing: 0;
+    /*去掉单元格间隙*/
     text-align: center;
   }
+
   table th,
   table td {
     padding: 6px 14px;
@@ -91,6 +123,7 @@
     color: $hoverColor;
     @extend .trans;
   }
+
   a:hover {
     color: red;
   }
@@ -102,22 +135,31 @@
 
 @media screen and (max-width: 1240px) {
   .marked {
+
     h2,
     h3,
     h4,
-    h5 {
+    h5,
+    h6 {
       margin-bottom: 8rem;
+    }
+
+    h6 {
+      font-size: 18rem;
     }
 
     h5 {
       font-size: 20rem;
     }
+
     h4 {
       font-size: 22rem;
     }
+
     h3 {
       font-size: 24rem;
     }
+
     h2 {
       font-size: 26rem;
     }
@@ -149,6 +191,7 @@
       border: 1rem solid rgb(120, 120, 120);
       font-size: 16rem;
     }
+
     table th,
     table td {
       padding: 3rem 8rem;
@@ -158,6 +201,7 @@
     a {
       margin: 0 2rem;
     }
+
     hr {
       margin: 10rem 0;
     }

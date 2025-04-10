@@ -22,6 +22,7 @@ public class Tag {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
     private Set<Article> articles = new HashSet<>();
@@ -44,7 +45,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Channel{" +
+        return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' + '}';
     }

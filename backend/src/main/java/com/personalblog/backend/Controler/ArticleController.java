@@ -25,9 +25,6 @@ public class ArticleController implements Constant {
     @Autowired
     private ArticleService articleService;
 
-//    @Autowired
-//    private EventProducer eventProducer;
-
     @GetMapping(path = "/tags")
     public ResponseEntity<?> getAllTags() {
 
@@ -43,8 +40,8 @@ public class ArticleController implements Constant {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createArticle(@RequestBody Map<String, Object> credentials
-//                                           @RequestHeader("Authorization") String token
+    public ResponseEntity<?> createArticle(@RequestBody Map<String, Object> credentials,
+                                           @RequestHeader("Authorization") String token
     ) {
         String title = (String) credentials.get("title");
         String content = (String) credentials.get("content");
@@ -52,10 +49,11 @@ public class ArticleController implements Constant {
         String cover = (String) credentials.get("cover");
         boolean draft = (boolean) credentials.get("draft");
 
-        System.out.println(title + " " + content + " " + tags + " " + cover + " " + draft);
-
-//        User user = JWTUtils.getUserFromToken(token);
-        Integer articleId = articleService.createArticle(title, content, tags, cover, draft, 101);
+        User user = JWTUtils.getUserFromToken(token);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("please login");
+        }
+        Integer articleId = articleService.createArticle(title, content, tags, cover, draft, user.getId());
 
 //        // send message to kafka
 //        Event event = new Event()

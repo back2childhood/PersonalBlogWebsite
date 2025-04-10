@@ -38,17 +38,18 @@ class WebAppApplicationTests {
 
 	@Test
 	void testJpaSelect(){
-//		List<Article> articles = articleRepository.findAll(pageable).getContent();
-////		for (Article article : articles) {
-////			System.out.println(article.getTitle());
-////		}
-//		System.out.println(articles.size());
-		String keyword = "Chaos";
-		int page = 0;
-		int size = 5;
-		Pageable pageable = PageRequest.of(page, size);
-		Map<String, Object> articles = articleService.getArticlesByKeywords(keyword, page, size);
-		System.out.println(articles.get("data").toString());
+		Pageable pageable = PageRequest.of(0, 5);
+		List<Article> articles = articleRepository.findAll(pageable).getContent();
+		for (Article article : articles) {
+			System.out.println(article.getTitle());
+		}
+		System.out.println(articles.size());
+//		String keyword = "Chaos";
+//		int page = 0;
+//		int size = 5;
+//		Pageable pageable = PageRequest.of(page, size);
+//		Map<String, Object> articles = articleService.getArticlesByKeywords(keyword, page, size);
+//		System.out.println(articles.get("data").toString());
 //		articles.getOrDefault("data", null);
 	}
 
@@ -69,22 +70,58 @@ class WebAppApplicationTests {
 		System.out.println(json);
 	}
 
+//	@Test
+//	void testDebug(){
+////		Integer tagId = tagRepository.findByName(tagName).map(Tag::getId).orElse(null);
+//		Map<String, Object> map = new HashMap<>();
+//		Pageable pageable = PageRequest.of(0, 10);
+//		Page<Article> pageResult = articleRepository.findArticlesByTagId(1, pageable);
+//		for(Article article : pageResult.getContent()){
+//			System.out.println(article.getTitle());
+//		}
+//		map.put("articles", pageResult.getContent());
+//		map.put("totalPages", pageResult.getTotalPages());
+//		map.put("currentPage", pageResult.getNumber());
+//
+//		Map<String, Object> res = new HashMap<>();
+//		res.put("data", map);
+//
+////		return res;
+//	}
 	@Test
-	void testDebug(){
-//		Integer tagId = tagRepository.findByName(tagName).map(Tag::getId).orElse(null);
-		Map<String, Object> map = new HashMap<>();
-		Pageable pageable = PageRequest.of(0, 10);
-		Page<Article> pageResult = articleRepository.findArticlesByTagId(1, pageable);
-		for(Article article : pageResult.getContent()){
-			System.out.println(article.getTitle());
-		}
-		map.put("articles", pageResult.getContent());
-		map.put("totalPages", pageResult.getTotalPages());
-		map.put("currentPage", pageResult.getNumber());
+	void testSelectByTags(){
+		Optional<Article> article = articleRepository.findById(7);
+		System.out.println(article.isPresent());
+		article = articleRepository.findById(57);
+		System.out.println(article.isPresent());
+		article = articleRepository.findById(107);
+		System.out.println(article.isPresent());
+	}
+	
+	@Test
+	void testAddTag(){
+//		. Add an Article to a Tag
+		Article article = articleRepository.findById(457).orElseThrow();
+		Tag tag = tagRepository.findById(21).orElseThrow();
 
-		Map<String, Object> res = new HashMap<>();
-		res.put("data", map);
+		article.getTags().add(tag);
+//		tag.getArticles().add(article);
 
-//		return res;
+		articleRepository.save(article);
+//		tagRepository.save(tag);
+		
+	}
+	
+	@Test
+	void testRemoveTag(){
+//		b. Remove an Article from a Tag
+		Article article = articleRepository.findById(107).orElseThrow();
+		Tag tag = tagRepository.findById(111).orElseThrow();
+
+		article.getTags().remove(tag);
+//		tag.getArticles().remove(article);
+
+		articleRepository.save(article);
+//		tagRepository.save(tag);
 	}
 }
