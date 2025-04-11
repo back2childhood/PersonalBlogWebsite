@@ -24,8 +24,6 @@ const DataCard: React.FC<Props> = ({ setArtSum }) => {
     onSuccess: data => setArtSum!(data?.data.articles)
   });
 
-  // console.log(data);
-
   return (
     <Card className={s.card} loading={loading}>
       <div className={s.blogData} onClick={() => navigate('/articles')}>

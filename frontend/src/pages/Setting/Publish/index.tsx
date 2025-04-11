@@ -1,22 +1,16 @@
-import useUrlState from '@ahooksjs/use-url-state';
 import { UserOutlined } from '@ant-design/icons';
 import {
-  useBoolean,
-  useKeyPress,
-  useLocalStorageState,
-  useMount,
   useRequest,
   useSafeState
 } from 'ahooks';
 import { message, Select, SelectProps } from 'antd';
 import classNames from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import sanitizeHtml from 'sanitize-html';
 
 import s from "./index.scss"
+import "./mySelect.custom.scss"
 
-import { storeState } from '@/redux/interface';
 import { getTagList } from '@/utils/apis/getTags';
 import { staleTime } from '@/utils/constant';
 import MarkDown from '@/components/MarkDown';
@@ -83,17 +77,19 @@ const Publish: React.FC<Props> = ({ className }) => {
           </div>
 
           <div className={s.inputBox}>
-            <div className={classNames(s.inputInfo, s.flex3)}>
+            <div id='mySelect' className={classNames(s.inputInfo, s.flex3)}>
               <div className={s.inputKey}>tags</div>
               <Select
                 mode="multiple"
-                size={'middle'}
+                size={'large'}
                 placeholder="Please select"
                 // defaultValue={['a10', 'c12']}
                 onChange={value => setTags(value)}
                 style={{ width: '100%' }}
                 options={options}
                 className={s.inputValue}
+                showSearch
+                optionFilterProp="label"
               />
             </div>
           </div>

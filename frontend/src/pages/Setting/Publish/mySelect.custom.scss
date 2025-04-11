@@ -1,0 +1,43 @@
+@import '../../../styles/base.scss';
+@import '../../../styles/style.scss';
+
+#mySelect {
+    .ant-select-selector {
+        background-color: $themeColor1 !important;
+        border-radius: 4px;
+        padding: 0px 0px 1px 2px;
+        color: $textColor;
+        border: 0px solid transparent !important;
+    }
+
+    .ant-select-selection-item {
+        background-color: $themeColor2 !important;
+        // font-weight: bold;
+        border-radius: 10px !important;
+        // color: white;
+        padding: 0 6px;
+    }
+
+    // .ant-select-selection-item-remove {
+    //     color: white;
+
+    //     &:hover {
+    //         color: darken(white, 10%);
+    //     }
+    // }
+}
+
+.ant-select-dropdown {
+    background-color: $themeColor1 !important;
+    border-radius: 8px;
+    color: $textColor;
+}
+
+.ant-select-item-option-selected {
+    background-color: $themeColor2 !important;
+    border-radius: 8px;
+}
+
+.ant-select-item-option-active {
+    background-color: $themeColor2 !important;
+}

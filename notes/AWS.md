@@ -61,3 +61,10 @@ SSH (22) → Only your IP (for security)
 ![alt text](images/AWS5.jpeg)
 
 8. run jar file `nohup java -jar backend.jar --server.port=8080 > log.txt 2>&1 &`. `nohup` make sure even if the terminal is closed the process is still keep running. `&` makes sure the process is running background. and the output will be written in log.txt.
+
+## Subdomain
+1. create a subdomain to store files, for example, I use `img.jiliblogs.com` to store the pictures in my articles.
+2. Set up subdomains in Route 53 -> select hosted zone (like `jiliblogs.com`) -> create a new record -> name is img, this can create a url `img.jiliblogs.com`, value is the endpoint we will use (I use S3 to store img), type is A-Routes traffic to an IPv4 address
+3. create a new bucket in S3, the name need to be same as the subdomain we created. Upload a html file as a placeholder is required.
+4. Go back to Route 53 and edit the record we just created. Set it as "Alias", choose the S3 website endpoint and the route can be filled automatically.
+   ![alt text](images/AWS6.png)

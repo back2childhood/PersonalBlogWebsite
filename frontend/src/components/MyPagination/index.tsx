@@ -12,21 +12,28 @@ interface Props {
   current?: number;
   defaultPageSize?: number;
   total?: number;
+  page?: number;
   setPage?: Function;
   scrollToTop?: number;
   autoScroll?: boolean;
   setNavShow?: Function;
 }
 
+
+
 const MyPagination: React.FC<Props> = ({
   current,
   defaultPageSize = 8,
   total = 0,
+  page,
   setPage,
   scrollToTop = 0,
   autoScroll = false,
   setNavShow
 }) => {
+
+  // console.log(page)
+
   return (
     <>
       {total > defaultPageSize ? (

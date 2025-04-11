@@ -1,5 +1,5 @@
 import { useRequest, useSafeState } from 'ahooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,18 +30,20 @@ const Section: React.FC<Props> = ({ artSum }) => {
   const navigate = useNavigate();
   const [page, setPage] = useSafeState(1);
 
-  const { data, loading } = useRequest(
+  const { data, loading, run } = useRequest(
     getArticles,
     {
-      defaultParams: [{ page, pagesize: defaultPageSize }],
+      // defaultParams: [{ page: page, pagesize: defaultPageSize }],
+      manual: true,
       retryCount: 3,
-      refreshDeps: [page],
-      // cacheKey: `Section-${DB.Article}-${page}`,
-      staleTime
+      // refreshDeps: [page],
+      // staleTime
     }
   );
 
-  // console.log(data?.data);
+  useEffect(() => {
+    run({ page, pagesize: defaultPageSize });
+  }, [page]);
 
   return (
     <section className={s.section}>
@@ -61,6 +63,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
         current={page}
         defaultPageSize={defaultPageSize}
         total={artSum}
+        page={page}
         setPage={setPage}
         autoScroll={true}
         scrollToTop={document.body.clientHeight - 80}
